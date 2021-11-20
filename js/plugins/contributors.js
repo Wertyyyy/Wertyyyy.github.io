@@ -1,4 +1,4 @@
-const FriendsJS = {
+const ContributorsJS = {
   requestAPI: (url, callback, timeout) => {
     let retryTimes = 5;
 
@@ -45,16 +45,15 @@ const FriendsJS = {
   },
   layout: (cfg) => {
     const el = cfg.el;
-    FriendsJS.requestAPI(cfg.api, function (data) {
+    ContributorsJS.requestAPI(cfg.api, function (data) {
       el.querySelector('.loading-wrap').remove();
-      const arr = data.content;
       var cellALL = "";
-      arr.forEach((item, i) => {
+      (data || []).forEach((item, i) => {
         var user = '<div class="user-card">';
         user += '<a class="card-link" target="_blank" rel="external noopener noreferrer"';
-        user += ' href="' + item.url + '">';
-        user += '<img alt="' + item.title + '" src="' + (item.avatar || cfg.avatar) + '" onerror="javascript:this.onerror=null;this.src=\'' + cfg.avatar + '\';">';
-        user += '<div class="name"><span>' + item.title + '</span></div>';
+        user += ' href="' + item.html_url + '">';
+        user += '<img alt="' + item.login + '" src="' + (item.avatar_url || cfg.avatar) + '" onerror="javascript:this.onerror=null;this.src=\'' + cfg.avatar + '\';">';
+        user += '<div class="name"><span>' + item.login + '</span></div>';
         user += '</a>';
         user += '</div>';
         cellALL += user;
@@ -68,7 +67,7 @@ const FriendsJS = {
     });
   },
   start: () => {
-    const els = document.getElementsByClassName('friendsjs-wrap');
+    const els = document.getElementsByClassName('contributorsjs-wrap');
     for (var i = 0; i < els.length; i++) {
       const el = els[i];
       const api = el.getAttribute('api');
@@ -80,14 +79,14 @@ const FriendsJS = {
       cfg.api = api;
       cfg.class = el.getAttribute('class');
       cfg.avatar = 'https://cdn.jsdelivr.net/gh/cdn-x/placeholder@1.0.1/avatar/round/3442075.svg';
-      FriendsJS.layout(cfg);
+      ContributorsJS.layout(cfg);
     }
   }
 }
 
 
 
-FriendsJS.start();
+ContributorsJS.start();
 document.addEventListener('pjax:complete', function () {
-  FriendsJS.start();
+  ContributorsJS.start();
 });
