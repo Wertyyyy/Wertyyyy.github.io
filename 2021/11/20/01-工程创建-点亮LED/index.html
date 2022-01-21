@@ -28,7 +28,7 @@
 <meta property="og:description" content="工程创建–点亮LED采用的开发板为德州仪器官方的LAUNCHXL-F28379D，搭载德州仪器的TMS320F28379D双核DSP 建立工程主要参考C2000WARE中的ti\c2000\C2000Ware_4_00_00_00\device_support\f2837xd\docs\F2837xD_FRM_EX_UG.pdf 软件采用最新版本的CCS11 只建立基本的CPU1程序，原文件该部分">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-11-20T02:39:41.667Z">
-<meta property="article:modified_time" content="2021-11-20T09:30:39.946Z">
+<meta property="article:modified_time" content="2021-12-05T07:37:05.835Z">
 <meta property="article:author" content="Werty Wang">
 <meta name="twitter:card" content="summary">
   
@@ -87,6 +87,9 @@
 <p>只建立基本的CPU1程序，原文件该部分内容在P21</p>
 <h2 id="1-工程创建"><a href="#1-工程创建" class="headerlink" title="1 工程创建"></a>1 工程创建</h2><h3 id="1-1-打开CCS，选定Workspace"><a href="#1-1-打开CCS，选定Workspace" class="headerlink" title="1.1 打开CCS，选定Workspace"></a>1.1 打开CCS，选定Workspace</h3><p>这里的Workspace应当理解为一种类似于Porject的概念，一个Workspace路径下面有一个工程，也就是一个Project</p>
 <h3 id="1-2-新建CCS工程"><a href="#1-2-新建CCS工程" class="headerlink" title="1.2 新建CCS工程"></a>1.2 新建CCS工程</h3><p>点击File -&gt; New -&gt; CCS Project，选定Target，Connection等选项</p>
+<p>Target此处应当选择28379D Delfino TMS320F28379D,Connection应当选择XDS100v2(TI的官方开发板上板载v2版本的仿真器)</p>
+<p>在Project Templates处,我们通常选择Empty Project(with main.c0)</p>
+<p>然后我们就可以看到很熟悉的可以写代码的地方了,但是在真正开始调试之前,乱七八糟(我也不知道具体原理的配置仍然还有很多)</p>
 <h3 id="1-3-配置Include-Options"><a href="#1-3-配置Include-Options" class="headerlink" title="1.3 配置Include Options"></a>1.3 配置Include Options</h3><p>右键新建的工程，选择Properties，在C2000 Compiler选项卡内选择Include Options</p>
 
 
