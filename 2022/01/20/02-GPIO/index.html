@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 6.0.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://cdn.jsdelivr.net'>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  <title>02-GPIO - Werty Wang</title>
+
+  
+    <meta name="description" content="该部分内容主要参考TMS320F2837xD Dual-Core Delfino Microcontrollers Technical Reference Manual(Rev.I)的Chap8,General-Purpose Input&#x2F;Output (GPIO) 硬件基础GPIO34作为开发板上的红灯 引脚可被配置为GPIO或Peripheral Function GPIO基本介绍 Up to">
+<meta property="og:type" content="article">
+<meta property="og:title" content="02-GPIO">
+<meta property="og:url" content="http://example.com/2022/01/20/02-GPIO/index.html">
+<meta property="og:site_name" content="Werty Wang">
+<meta property="og:description" content="该部分内容主要参考TMS320F2837xD Dual-Core Delfino Microcontrollers Technical Reference Manual(Rev.I)的Chap8,General-Purpose Input&#x2F;Output (GPIO) 硬件基础GPIO34作为开发板上的红灯 引脚可被配置为GPIO或Peripheral Function GPIO基本介绍 Up to">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-01-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-01-20T16:00:00.000Z">
+<meta property="article:author" content="Werty Wang">
+<meta name="twitter:card" content="summary">
+  
+  
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+
+  
+</head>
+
+<body>
+  
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+
+<header class="header">
+
+<div class="logo-wrap"><a class="title" href="/"><div class="main">Werty Wang</div></a></div>
+<nav class="menu dis-select"></nav></header>
+
+<div class="widgets">
+
+<div class="widget-wrap single" id="toc"><div class="widget-header cap dis-select"><span class="name">本文目录</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A1%AC%E4%BB%B6%E5%9F%BA%E7%A1%80"><span class="toc-text">硬件基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#GPIO%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D"><span class="toc-text">GPIO基本介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#GPIO%E5%88%86%E7%BB%84"><span class="toc-text">GPIO分组</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Input-Qualification"><span class="toc-text">Input Qualification</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GPIO%E6%A1%86%E5%9B%BE"><span class="toc-text">GPIO框图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%A0%E4%B8%AA%E9%87%8D%E8%A6%81%E7%9A%84%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-text">几个重要的寄存器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA"><span class="toc-text">输入输出</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Digital-General-Purpose-I-O-Control"><span class="toc-text">Digital General-Purpose I&#x2F;O Control</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Input-Qualification-1"><span class="toc-text">Input Qualification</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#GPIO-and-Peripheral-Muxing"><span class="toc-text">GPIO and Peripheral Muxing</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Internal-Pullup-Configuration-Requirements"><span class="toc-text">Internal Pullup Configuration Requirements</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-text">其他寄存器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B8%E5%9E%8B%E5%BA%94%E7%94%A8"><span class="toc-text">典型应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A8%E6%8C%BD%E8%BE%93%E5%87%BA%E7%82%B9%E4%BA%AEGPIO"><span class="toc-text">推挽输出点亮GPIO</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E6%BC%8F%E8%BE%93%E5%87%BA%E7%82%B9%E4%BA%AEGPIO"><span class="toc-text">开漏输出点亮GPIO</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8A%E6%8B%89%E8%BE%93%E5%85%A5%E6%A3%80%E6%B5%8B%E6%8C%89%E9%94%AE"><span class="toc-text">上拉输入检测按键</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A6%E4%B8%AD%E6%96%AD%E7%9A%84%E6%8C%89%E9%94%AE%E6%A3%80%E6%B5%8B"><span class="toc-text">带中断的按键检测</span></a></li></ol></li></ol></div></div></div>
+
+
+</div>
+
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/DSP/">DSP</a></div><div id="post-meta">发布于&nbsp;<time datetime="2022-01-19T16:00:00.000Z">2022-01-20</time></div></div>
+
+<article class='content md post'>
+<h1 class="article-title"><span>02-GPIO</span></h1>
+<p>该部分内容主要参考<a href="public_source/spruhm8i.pdf"><code>TMS320F2837xD Dual-Core Delfino Microcontrollers Technical Reference Manual(Rev.I)</code></a>的Chap8,<code>General-Purpose Input/Output (GPIO)</code></p>
+<h2 id="硬件基础"><a href="#硬件基础" class="headerlink" title="硬件基础"></a>硬件基础</h2><p>GPIO34作为开发板上的红灯</p>
+<p>引脚可被配置为<code>GPIO</code>或<code>Peripheral Function</code></p>
+<h3 id="GPIO基本介绍"><a href="#GPIO基本介绍" class="headerlink" title="GPIO基本介绍"></a>GPIO基本介绍</h3><blockquote>
+<p>Up to twelve independent peripheral signals are multiplexed on a single GPIO-enabled pin in addition to the CPU-controlled I/O capability. Each pin output can be controlled by either a peripheral or one of the four CPU masters (CPU1, CPU1.CLA, CPU2, or CPU2.CLA).</p>
+</blockquote>
+<h4 id="GPIO分组"><a href="#GPIO分组" class="headerlink" title="GPIO分组"></a>GPIO分组</h4><ul>
+<li>Port A consists of GPIO0-GPIO31</li>
+<li>Port B consists of GPIO32-GPIO63</li>
+<li>Port C consists of GPIO64-GPIO95</li>
+<li>Port D consists of GPIO96-GPIO127</li>
+<li>Port E consists of GPIO128-GPIO159</li>
+<li>Port F consists of GPIO160-GPIO168</li>
+</ul>
+<h4 id="Input-Qualification"><a href="#Input-Qualification" class="headerlink" title="Input Qualification"></a>Input Qualification</h4><p>重点说一下<code>Input Qualification</code>(可能被翻译为输入限定功能?):就是当IO被配置为输入的时候可以有一个滤波的功能去避免不想要的高频毛刺.</p>
+<p>可以被配置为如下三个模式</p>
+<ul>
+<li><p>No Synchronization (Asynchronous Input)</p>
+<p>  就看到一句话</p>
+<blockquote>
+<p>The asynchronous option is not valid if the pin is used as a general purpose digital input pin (GPIO). If the pin is configured as a GPIO input and the asynchronous option is selected then the qualification defaults to synchronization to SYSCLKOUT as described in Section 8.4.2.</p>
+</blockquote>
+<p>  引脚作为GPIO时该模式不可用。</p>
+</li>
+<li><p>Synchronization to SYSCLKOUT Only</p>
+<blockquote>
+<p>This is the default qualification mode of all the pins at reset. In this mode, the input signal is only synchronized to the system clock (SYSCLKOUT). Because the incoming signal is asynchronous, it can take up to a SYSCLKOUT period of delay in order for the input to the MCU to be changed. No further qualification is performed on the signal</p>
+</blockquote>
+<p>  这是默认的模式,输入信号将同步到SYSCLKOUT.</p>
+<p>  这可以理解为对输入信号什么都没有做.</p>
+</li>
+<li><p>Qualification Using a Sampling Window</p>
+<blockquote>
+<p>In this mode, the signal is first synchronized to the system clock (SYSCLKOUT) and then qualified by a specified number of cycles before the input is allowed to change.</p>
+</blockquote>
+<p>  在同步到SYSCLKOUT后,输入信号将被滤波,可选择<code>3-Sampling</code>或<code>6-Sampling</code>进行配置,即3或6个周期内GPIO状态一致则GPIO的状态视为有效,被保留.</p>
+<p>  我觉得这个应该不是很重要.</p>
+</li>
+</ul>
+<h3 id="GPIO框图"><a href="#GPIO框图" class="headerlink" title="GPIO框图"></a>GPIO框图</h3><h3 id="几个重要的寄存器"><a href="#几个重要的寄存器" class="headerlink" title="几个重要的寄存器"></a>几个重要的寄存器</h3><h4 id="输入输出"><a href="#输入输出" class="headerlink" title="输入输出"></a>输入输出</h4><ul>
+<li><p>GPyDIR</p>
+<p>  0 输入<br>  1 输出</p>
+</li>
+</ul>
+<h4 id="Digital-General-Purpose-I-O-Control"><a href="#Digital-General-Purpose-I-O-Control" class="headerlink" title="Digital General-Purpose I/O Control"></a>Digital General-Purpose I/O Control</h4><ul>
+<li><p>GPyDAT Registers</p>
+<p>  改变该寄存器的值可以改变引脚的输出电平，同时该寄存器的值被锁存</p>
+</li>
+<li><p>GPySET Registers</p>
+<p>  每次将该寄存器的值置1会使得输出电平变为高电平</p>
+</li>
+<li><p>GPyCLEAR Registers</p>
+<p>  每次将该寄存器的值置1会使得输出电平变为低电平</p>
+</li>
+<li><p>GPyTOGGLE Registers</p>
+<p>  每次将该寄存器的值置1会使得输出电平变化</p>
+</li>
+</ul>
+<h4 id="Input-Qualification-1"><a href="#Input-Qualification-1" class="headerlink" title="Input Qualification"></a>Input Qualification</h4><p>Input Qualification将由<code>GPyCTRL</code>与<code>GPyQSEL1-2</code>进行配置</p>
+<ul>
+<li><p>GPyCTRL</p>
+<p>  没太看明白，似乎不太重要</p>
+</li>
+<li><p>GPyQSEL1-2 Registers</p>
+<p>  控制Qualification的Mux</p>
+</li>
+</ul>
+<h4 id="GPIO-and-Peripheral-Muxing"><a href="#GPIO-and-Peripheral-Muxing" class="headerlink" title="GPIO and Peripheral Muxing"></a>GPIO and Peripheral Muxing</h4><p>复用,下列寄存器将决定引脚工作在什么模式</p>
+<ul>
+<li><p>GPyGMUX1-2</p>
+</li>
+<li><p>GPyMUX1-2</p>
+<p>  有一个专门的表格位于PDF的959页,目前只需注意当<code>GPyMUX1-2=00b</code>时,无论<code>GPyGMUX1-2</code>为什么值,引脚均工作在GPIO模式下.</p>
+<p>  需要注意的是一组GPIO有32个引脚，前16个引脚使用GPyMUX1，后16个引脚使用GPyMUX2</p>
+</li>
+</ul>
+<h4 id="Internal-Pullup-Configuration-Requirements"><a href="#Internal-Pullup-Configuration-Requirements" class="headerlink" title="Internal Pullup Configuration Requirements"></a>Internal Pullup Configuration Requirements</h4><p>内部上拉电阻相关配置,默认情况下GPIO工作在输入模式内部上拉电阻被禁用</p>
+<ul>
+<li>GPyPUD<br>  1 禁止上拉<br>  0 使能上拉</li>
+</ul>
+<h4 id="其他寄存器"><a href="#其他寄存器" class="headerlink" title="其他寄存器"></a>其他寄存器</h4><ul>
+<li><p>GPyINV</p>
+<p>  0 输入反转失能<br>  1 输入反转使能<br>  仅作为输入时有效</p>
+</li>
+<li><p>GPyODR</p>
+<p>  0 开漏输出失能<br>  1 开漏输出使能<br>  仅作为输出有效</p>
+</li>
+<li><p>GPyCSEL1-4<br>  主选择器配置，其中只有1-2需要配置，3-4不影响功能<br>  xx00: CPU1<br>  xx01: CPU1.CLA1<br>  xx10: CPU2<br>  xx11: CPU2.CLA1</p>
+</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>参考<a href="public_source/spruhm8i.pdf"><code>Technical Reference Manual(Rev.I)</code></a>的8.9.2节与8.9.3节，这两节详细记录了各寄存器的功能</p>
+<h2 id="典型应用"><a href="#典型应用" class="headerlink" title="典型应用"></a>典型应用</h2><h3 id="推挽输出点亮GPIO"><a href="#推挽输出点亮GPIO" class="headerlink" title="推挽输出点亮GPIO"></a>推挽输出点亮GPIO</h3><p>初始化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">EALLOW;</span><br><span class="line">GpioCtrlRegs.GPBMUX1.bit.GPIO34=0;</span><br><span class="line">GpioCtrlRegs.GPBDIR.bit.GPIO34=1;</span><br><span class="line">GpioCtrlRegs.GPBPUD.bit.GPIO34=0;</span><br><span class="line">EDIS;</span><br></pre></td></tr></table></figure>
+
+<p>控制</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GpioDataRegs.GPBDAT.bit.GPIO34=1;</span><br><span class="line">GpioDataRegs.GPBDAT.bit.GPIO34=0;</span><br><span class="line">GpioDataRegs.GPBSET.bit.GPIO34=1;</span><br><span class="line">GpioDataRegs.GPBCLEAR.bit.GPIO34=1;</span><br><span class="line">GpioDataRegs.GPBTOGGLE.bit.GPIO34=1;</span><br></pre></td></tr></table></figure>
+
+<h3 id="开漏输出点亮GPIO"><a href="#开漏输出点亮GPIO" class="headerlink" title="开漏输出点亮GPIO"></a>开漏输出点亮GPIO</h3><p>懒得去搞相关硬件了，回学校再说吧</p>
+<h3 id="上拉输入检测按键"><a href="#上拉输入检测按键" class="headerlink" title="上拉输入检测按键"></a>上拉输入检测按键</h3><p>初始化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">EALLOW;</span><br><span class="line">GpioCtrlRegs.GPBMUX1.bit.GPIO32=0;</span><br><span class="line">GpioCtrlRegs.GPBDIR.bit.GPIO32=0;</span><br><span class="line">GpioCtrlRegs.GPBPUD.bit.GPIO32=0;</span><br><span class="line">EDIS;</span><br></pre></td></tr></table></figure>
+
+<p>读取</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if(GpioDataRegs.GPBDAT.bit.GPIO32==1)</span><br><span class="line">&#123;</span><br><span class="line">    // do something here...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="带中断的按键检测"><a href="#带中断的按键检测" class="headerlink" title="带中断的按键检测"></a>带中断的按键检测</h3>
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="header cap theme"><span>接下来阅读</span></section><section class="body fs14"><a id="next" href="/2022/01/18/01-%E5%B7%A5%E7%A8%8B%E5%88%9B%E5%BB%BA-%E7%82%B9%E4%BA%AELED/">01-工程创建-点亮LED<span class="note">较早</span></a><div class="line"></div><a id="prev" href="/2022/01/22/04-Interrupt/">04-Interrupt<span class="note">较新</span></a></section></div>
+
+
+
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="text"><p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+<p>本站由 <a href="http://example.com/">@Werty Wang</a> 创建，使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.6.1" title="v1.6.1">Stellar</a> 作为主题。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.6.1';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js',
+    sitesjs: '/js/plugins/sites.js',
+    friendsjs: '/js/plugins/friends.js',
+  };
+
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.1/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@6/swiper-bundle.min.css","js":"https://unpkg.com/swiper@6/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://cdn.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://cdn.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>

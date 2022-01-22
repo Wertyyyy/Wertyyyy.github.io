@@ -62,7 +62,7 @@
 <div class="widget-wrap" id="markdown"><div class="widget-header cap dis-select"><span class="name">Werty Wang的博客</span></div><div class="widget-body fs14"><p>记录一些学习中遇到的问题</p>
 </div></div>
 
-<div class="widget-wrap" id="recent"><div class="widget-header cap dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><div class="line"></div><a class="more-item" href="/2022/01/20/01-%E5%B7%A5%E7%A8%8B%E5%88%9B%E5%BB%BA-%E7%82%B9%E4%BA%AELED/"><div class="cap"><time>2022-01-22</time><span>DSP</span></div><span class="title">01-工程创建-点亮LED</span></a><div class="line"></div><a class="more-item" href="/2022/01/22/02-GPIO/"><div class="cap"><time>2022-01-22</time><span>DSP</span></div><span class="title">02-GPIO</span></a></div></div>
+<div class="widget-wrap" id="recent"><div class="widget-header cap dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><div class="line"></div><a class="more-item" href="/2022/01/22/03-TIM/"><div class="cap"><time>2022-01-22</time><span>DSP</span></div><span class="title">03-TIM</span></a><div class="line"></div><a class="more-item" href="/2022/01/22/04-Interrupt/"><div class="cap"><time>2022-01-22</time><span>DSP</span></div><span class="title">04-Interrupt</span></a><div class="line"></div><a class="more-item" href="/2022/01/20/02-GPIO/"><div class="cap"><time>2022-01-21</time><span>DSP</span></div><span class="title">02-GPIO</span></a><div class="line"></div><a class="more-item" href="/2022/01/18/01-%E5%B7%A5%E7%A8%8B%E5%88%9B%E5%BB%BA-%E7%82%B9%E4%BA%AELED/"><div class="cap"><time>2022-01-20</time><span>DSP</span></div><span class="title">01-工程创建-点亮LED</span></a></div></div>
 </div>
 
 
@@ -100,13 +100,32 @@
   </nav>
 </div>
 
-  <div class="post-list post"><a class="post-card post " href="/2022/01/22/02-GPIO/"><article class="md">
-<h2 class="post-title">02-GPIO</h2><div class="excerpt"><p>该部分内容主要参考https://www.ti.com.cn/cn/lit/ug/spruhm8i/spruhm8i.pdf?ts=1642739628635&amp;ref_url=https%253A%252F%252Fwww.ti.com.cn%252Fproduct%252Fcn%252FTMS320F28379D%253FkeyMatch%253D28379D的Chap8,Gene...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-21T16:00:00.000Z">2022-01-22</time></span><span class="cap breadcrumb">DSP</span><div>
-</article></a><a class="post-card post " href="/2022/01/20/01-%E5%B7%A5%E7%A8%8B%E5%88%9B%E5%BB%BA-%E7%82%B9%E4%BA%AELED/"><article class="md">
+  <div class="post-list post"><a class="post-card post " href="/2022/01/22/06-Analog/"><article class="md">
+<h2 class="post-title">2022-01-22</h2><div class="excerpt"><p></p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-22T13:58:54.398Z">2022-01-22</time></span><div>
+</article></a><a class="post-card post " href="/2022/01/22/07-%E4%BF%9D%E7%95%99/"><article class="md">
+<h2 class="post-title">2022-01-22</h2><div class="excerpt"><p></p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-22T13:58:31.590Z">2022-01-22</time></span><div>
+</article></a><a class="post-card post " href="/2022/01/22/08-Commuication/"><article class="md">
+<h2 class="post-title">2022-01-22</h2><div class="excerpt"><p></p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-22T13:58:13.495Z">2022-01-22</time></span><div>
+</article></a><a class="post-card post " href="/2022/01/22/05-Clock/"><article class="md">
+<h2 class="post-title">2022-01-22</h2><div class="excerpt"><p></p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-22T13:57:57.131Z">2022-01-22</time></span><div>
+</article></a><a class="post-card post " href="/2022/01/22/03-TIM/"><article class="md">
+<h2 class="post-title">03-TIM</h2><div class="excerpt"><p></p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-21T16:00:00.000Z">2022-01-22</time></span><span class="cap breadcrumb">DSP</span><div>
+</article></a><a class="post-card post " href="/2022/01/22/04-Interrupt/"><article class="md">
+<h2 class="post-title">04-Interrupt</h2><div class="excerpt"><p>中断信号通路
+中断分为三级，分别是外设级中断，PIE级中断和CPU级中断。
+Peripheral Stage外设本身中断信号的产生，外设可能用一个中断信号代表多种事件，如传输完成或传输错误，所以需要使用peripheral&#39;s status register去表示中断类型，当然这也表示在一次中断之后我们应当及时清除中断标志位。
+Pie Stage似乎可以简单的理解为Pie扩展了CPU...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-21T16:00:00.000Z">2022-01-22</time></span><span class="cap breadcrumb">DSP</span><div>
+</article></a><a class="post-card post " href="/2022/01/20/02-GPIO/"><article class="md">
+<h2 class="post-title">02-GPIO</h2><div class="excerpt"><p>该部分内容主要参考TMS320F2837xD Dual-Core Delfino Microcontrollers Technical Reference Manual(Rev.I)的Chap8,General-Purpose Input/Output (GPIO)
+硬件基础GPIO34作为开发板上的红灯
+引脚可被配置为GPIO或Peripheral Function
+GPIO基本介绍
+Up...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-19T16:00:00.000Z">2022-01-20</time></span><span class="cap breadcrumb">DSP</span><div>
+</article></a><a class="post-card post " href="/2022/01/18/01-%E5%B7%A5%E7%A8%8B%E5%88%9B%E5%BB%BA-%E7%82%B9%E4%BA%AELED/"><article class="md">
 <h2 class="post-title">01-工程创建-点亮LED</h2><div class="excerpt"><p>1 简单工程创建采用的开发板为德州仪器官方的LAUNCHXL-F28379D，搭载德州仪器的TMS320F28379D双核DSP
 建立工程主要参考C2000WARE中的ti\c2000\C2000Ware_4_00_00_00\device_support\f2837xd\docs\F2837xD_FRM_EX_UG.pdf
 软件采用最新版本的CCS11
-只建立基本的CPU1程序，原文件该部...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-19T16:00:00.000Z">2022-01-20</time></span><span class="cap breadcrumb">DSP</span><div>
+只建立基本的CPU1程序，原文件该部...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-17T16:00:00.000Z">2022-01-18</time></span><span class="cap breadcrumb">DSP</span><div>
 </article></a></div>
   
 
