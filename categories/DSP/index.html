@@ -62,7 +62,7 @@
 <div class="widget-wrap" id="markdown"><div class="widget-header cap dis-select"><span class="name">Werty Wang的博客</span></div><div class="widget-body fs14"><p>记录一些学习中遇到的问题</p>
 </div></div>
 
-<div class="widget-wrap" id="recent"><div class="widget-header cap dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><div class="line"></div><a class="more-item" href="/2022/01/22/03-TIM/"><div class="cap"><time>2022-01-22</time><span>DSP</span></div><span class="title">03-TIM</span></a><div class="line"></div><a class="more-item" href="/2022/01/22/04-Interrupt/"><div class="cap"><time>2022-01-22</time><span>DSP</span></div><span class="title">04-Interrupt</span></a><div class="line"></div><a class="more-item" href="/2022/01/20/02-GPIO/"><div class="cap"><time>2022-01-21</time><span>DSP</span></div><span class="title">02-GPIO</span></a><div class="line"></div><a class="more-item" href="/2022/01/18/01-%E5%B7%A5%E7%A8%8B%E5%88%9B%E5%BB%BA-%E7%82%B9%E4%BA%AELED/"><div class="cap"><time>2022-01-20</time><span>DSP</span></div><span class="title">01-工程创建-点亮LED</span></a></div></div>
+<div class="widget-wrap" id="recent"><div class="widget-header cap dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><div class="line"></div><a class="more-item" href="/2022/01/23/03-TIM/"><div class="cap"><time>2022-01-23</time><span>DSP</span></div><span class="title">03-TIM</span></a><div class="line"></div><a class="more-item" href="/2022/01/23/04-Analog/"><div class="cap"><time>2022-01-23</time><span>DSP</span></div><span class="title">04-Analog</span></a><div class="line"></div><a class="more-item" href="/2022/01/23/06-Miscellaneous/"><div class="cap"><time>2022-01-23</time><span>DSP</span></div><span class="title">06-Miscellaneous</span></a><div class="line"></div><a class="more-item" href="/2022/01/22/05-Interrupt/"><div class="cap"><time>2022-01-23</time><span>DSP</span></div><span class="title">05-Interrupt</span></a><div class="line"></div><a class="more-item" href="/2022/01/23/07-Commuication/"><div class="cap"><time>2022-01-23</time><span>DSP</span></div><span class="title">07-Communication</span></a></div></div>
 </div>
 
 
@@ -102,10 +102,38 @@
   </nav>
 </div>
 
-  <div class="post-list post"><a class="post-card post " href="/2022/01/22/03-TIM/"><article class="md">
-<h2 class="post-title">03-TIM</h2><div class="excerpt"><p></p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-21T16:00:00.000Z">2022-01-22</time></span><span class="cap breadcrumb">DSP</span><div>
-</article></a><a class="post-card post " href="/2022/01/22/04-Interrupt/"><article class="md">
-<h2 class="post-title">04-Interrupt</h2><div class="excerpt"><p>中断信号通路
+  <div class="post-list post"><a class="post-card post " href="/2022/01/23/03-TIM/"><article class="md">
+<h2 class="post-title">03-TIM</h2><div class="excerpt"><p>DSP的定时器的功能强大，不再是一个独立的外设，而是被拆分为三个部分，分别是
+
+ePWM:Enhanced Pulse Width Modulator
+eCAP:Enhanced Quadrature Encoder Pulse
+eQEP:Enhanced Capture
+
+由于假期在家没有示波器，所以有些功能只调试个大概
+Timer28379有三个32位的定时器CPU Timer 0/1/...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-22T16:00:00.000Z">2022-01-23</time></span><span class="cap breadcrumb">DSP</span><div>
+</article></a><a class="post-card post " href="/2022/01/23/04-Analog/"><article class="md">
+<h2 class="post-title">04-Analog</h2><div class="excerpt"><p>DSP的模拟主要有四个部分：
+
+ADC Analog-to-Digital Converter
+DAC Buffered Digital-to-Analog Converter 
+CMPSS Comparator Subsystem
+SDFM Sigma Delta Filter Module
+
+</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-22T16:00:00.000Z">2022-01-23</time></span><span class="cap breadcrumb">DSP</span><div>
+</article></a><a class="post-card post " href="/2022/01/23/06-Miscellaneous/"><article class="md">
+<h2 class="post-title">06-Miscellaneous</h2><div class="excerpt"><p>System ControlBootClockX-BARX-BAR用于提供灵活的数据通路，DSP中X-BAR有四个：
+
+Input X-BAR
+CLB X-BAR
+ePWM X-BAR
+Output X-BAR
+
+Input X-BAR用于将任意一个GPIO信号连接至外设如ADC，eCAP，ePWM。
+</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-22T16:00:00.000Z">2022-01-23</time></span><span class="cap breadcrumb">DSP</span><div>
+</article></a><a class="post-card post " href="/2022/01/23/07-Commuication/"><article class="md">
+<h2 class="post-title">07-Communication</h2><div class="excerpt"><p></p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-22T16:00:00.000Z">2022-01-23</time></span><span class="cap breadcrumb">DSP</span><div>
+</article></a><a class="post-card post " href="/2022/01/22/05-Interrupt/"><article class="md">
+<h2 class="post-title">05-Interrupt</h2><div class="excerpt"><p>中断信号通路
 中断分为三级，分别是外设级中断，PIE级中断和CPU级中断。
 Peripheral Stage外设本身中断信号的产生，外设可能用一个中断信号代表多种事件，如传输完成或传输错误，所以需要使用peripheral&#39;s status register去表示中断类型，当然这也表示在一次中断之后我们应当及时清除中断标志位。
 Pie Stage似乎可以简单的理解为Pie扩展了CPU...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-21T16:00:00.000Z">2022-01-22</time></span><span class="cap breadcrumb">DSP</span><div>
@@ -115,11 +143,11 @@ Pie Stage似乎可以简单的理解为Pie扩展了CPU...</p></div><div class="m
 
 GPIO基本介绍
 Up to twelve independent peripher...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-19T16:00:00.000Z">2022-01-20</time></span><span class="cap breadcrumb">DSP</span><div>
-</article></a><a class="post-card post " href="/2022/01/18/01-%E5%B7%A5%E7%A8%8B%E5%88%9B%E5%BB%BA-%E7%82%B9%E4%BA%AELED/"><article class="md">
-<h2 class="post-title">01-工程创建-点亮LED</h2><div class="excerpt"><p>1 简单工程创建采用的开发板为德州仪器官方的LAUNCHXL-F28379D，搭载德州仪器的TMS320F28379D双核DSP
+</article></a><a class="post-card post " href="/2022/01/18/01-Project/"><article class="md">
+<h2 class="post-title">01-Project</h2><div class="excerpt"><p>简单工程创建采用的开发板为德州仪器官方的LAUNCHXL-F28379D，搭载德州仪器的TMS320F28379D双核DSP
 建立工程主要参考C2000WARE中的ti\c2000\C2000Ware_4_00_00_00\device_support\f2837xd\docs\F2837xD_FRM_EX_UG.pdf
 软件采用最新版本的CCS11
-只建立基本的CPU1程序，原文件该部...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-17T16:00:00.000Z">2022-01-18</time></span><span class="cap breadcrumb">DSP</span><div>
+只建立基本的CPU1程序，原文件该部分内...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-17T16:00:00.000Z">2022-01-18</time></span><span class="cap breadcrumb">DSP</span><div>
 </article></a></div>
   
 
