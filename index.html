@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang='zh-CN'>
+<html lang='en'>
 
 <head>
   <meta name="generator" content="Hexo 6.0.0">
@@ -18,14 +18,14 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="theme-color" content="#f8f8f8">
-  <title>Werty Wang</title>
+  <title>Hexo</title>
 
   
     <meta property="og:type" content="website">
-<meta property="og:title" content="Werty Wang">
+<meta property="og:title" content="Hexo">
 <meta property="og:url" content="http://example.com/index.html">
-<meta property="og:site_name" content="Werty Wang">
-<meta property="og:locale" content="zh_CN">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
 <meta property="article:author" content="Werty Wang">
 <meta name="twitter:card" content="summary">
   
@@ -43,11 +43,119 @@
   
 
   
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --></head>
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
 
 <body>
   
@@ -60,14 +168,14 @@
 
 <header class="header">
 
-<div class="logo-wrap"><a class="title" href="/"><div class="main">Werty Wang</div></a></div>
+<div class="logo-wrap"><a class="title" href="/"><div class="main">Hexo</div></a></div>
 <nav class="menu dis-select"></nav></header>
 
 <div class="widgets">
-<div class="widget-wrap" id="markdown"><div class="widget-header cap dis-select"><span class="name">Werty Wang的博客</span></div><div class="widget-body fs14"><p>记录一些学习中遇到的问题</p>
+<div class="widget-wrap" id="markdown"><div class="widget-header cap dis-select"><span class="name">Werty的博客</span></div><div class="widget-body fs14"><p>Werty Wang Ustcer</p>
 </div></div>
 
-<div class="widget-wrap" id="recent"><div class="widget-header cap dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><div class="more-item"><a class="title" href="/2022/07/31/OpenCV/">OpenCV</a></div><div class="more-item"><a class="title" href="/2022/01/25/%E7%94%B5%E8%B5%9B%E4%BF%A1%E5%8F%B7%E7%B1%BB%E8%B0%83%E7%A0%94/">电赛调研</a></div><div class="more-item"><a class="title" href="/2022/01/23/03-TIM/">03-TIM</a></div><div class="more-item"><a class="title" href="/2022/01/23/04-Analog/">04-Analog</a></div><div class="more-item"><a class="title" href="/2022/01/23/06-Miscellaneous/">06-Miscellaneous</a></div></div></div>
+<div class="widget-wrap" id="recent"><div class="widget-header cap dis-select"><span class="name">Recent Update</span></div><div class="widget-body fs14"><div class="more-item"><a class="title" href="/2022/07/31/OpenCV/">OpenCV</a></div></div></div>
 </div>
 
 
@@ -78,7 +186,7 @@
 
 <header class="header mobile-only">
 
-<div class="logo-wrap"><a class="title" href="/"><div class="main">Werty Wang</div></a></div>
+<div class="logo-wrap"><a class="title" href="/"><div class="main">Hexo</div></a></div>
 </header>
 
 
@@ -89,120 +197,42 @@
   <div class='nav-wrap'>
   <nav class='sub post cap'>
     
-      <a class='active' href='/'>近期发布</a>
+      <a class='active' href='/'>Recent</a>
     
     
       
-        <a href='/categories'>分类</a>
+        <a href='/categories'>Categories</a>
       
     
     
     
       
-        <a href='/archives'>归档</a>
+        <a href='/archives'>Archives</a>
       
     
   </nav>
 </div>
 
   <div class="post-list post"><a class="post-card post " href="/2022/07/31/OpenCV/">
-<article class="md"><h2 class="post-title">OpenCV</h2><div class="excerpt"><p>imread方法imshowimwrite
-VideoCapture 实例化对象cap    isOpened方法    read方法：读取一帧，返回ret,frame元组    get获取参数    set设置参数    release
-VideoWrite 实例化对象out    write    release
-绘图img = np.zeros((512,512,3), np.uint...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-07-30T16:00:00.000Z">2022-07-31</time></span><span class="cap breadcrumb">Computer Vision</span></div></article>
-</a><a class="post-card post " href="/2022/04/03/01-Verlog/">
-<article class="md"><h2 class="post-title">2022-04-03</h2><div class="excerpt"><p>Verilog概述然后呢模块（类型）定义（同时实例化，内部端口以及外部都是全局的）module name_of_module(    input a;    output y;    inout)
-// wire… 线类型（可以定义为某个逻辑门的输出// reg…  寄存器类型    在assign内被赋值的为wire，在always内被赋值的是regassign y=a;always@(…...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-04-03T11:09:36.837Z">2022-04-03</time></span></div></article>
-</a><a class="post-card post " href="/2022/01/25/%E7%94%B5%E8%B5%9B%E4%BF%A1%E5%8F%B7%E7%B1%BB%E8%B0%83%E7%A0%94/">
-<article class="md"><h2 class="post-title">电赛调研</h2><div class="excerpt"><p>2020-E 放大器非线性失真研究装置要求搭建受控晶体管放大电路。
-控制放大电路输出正常波形，顶部失真，底部失真，双向失真，交越失真。（有一个地方不是很清楚，应该是人手动控制还是数控，好像人手动控制也可以
-测量总谐波失真。
-使用到的器材
-搭建由分立元件组成的晶体管受控放大电路所需的原件
-
-ADC输入电路，包括：
-
-缓冲
-直流转换
-衰减/放大
-
-
-
-参考资料
-https://blog.csdn...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-24T16:00:00.000Z">2022-01-25</time></span><span class="cap breadcrumb">电赛</span></div></article>
-</a><a class="post-card post " href="/2022/01/24/07-Commuication/">
-<article class="md"><h2 class="post-title">07-Communication</h2><div class="excerpt"><p>SCI双线异步串行总线，即UART
-框图
-信号通路
-寄存器在全双工模式下，需要用到下列寄存器
-
-SCICTL1：SCI控制寄存器1
-6：RXERRINTENA：接收错误中断使能
-0：禁用
-1：启用
-
-
-5：SWRESET：SCI软件重置  初始化SCI状态机和状态标志
-3：TXWAKE：发送唤起模式选择
-2：SLEEP：SCI睡眠使能
-0：禁用
-1：启用
-
-
-1：TXENA：SCI发送使能
-...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-23T16:00:00.000Z">2022-01-24</time></span><span class="cap breadcrumb">DSP</span></div></article>
-</a><a class="post-card post " href="/2022/01/23/03-TIM/">
-<article class="md"><h2 class="post-title">03-TIM</h2><div class="excerpt"><p>DSP的定时器的功能强大，不再是一个独立的外设，而是被拆分为三个部分，分别是
-
-ePWM:Enhanced Pulse Width Modulator
-eCAP:Enhanced Quadrature Encoder Pulse
-eQEP:Enhanced Capture
-
-由于假期在家没有示波器，所以有些功能只调试个大概
-Timer28379有三个32位的定时器CPU Timer 0/1/...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-22T16:00:00.000Z">2022-01-23</time></span><span class="cap breadcrumb">DSP</span></div></article>
-</a><a class="post-card post " href="/2022/01/23/04-Analog/">
-<article class="md"><h2 class="post-title">04-Analog</h2><div class="excerpt"><p>DSP的模拟主要有四个部分：
-
-ADC Analog-to-Digital Converter
-Temperature Sensor
-DAC Buffered Digital-to-Analog Converter 
-CMPSS Comparator Subsystem
-
-ADC总述ADC模块是一个逐次逼近（SAR）型ADC，可配置为16位或12位，由一个core和一个wrapper构成。c...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-22T16:00:00.000Z">2022-01-23</time></span><span class="cap breadcrumb">DSP</span></div></article>
-</a><a class="post-card post " href="/2022/01/23/06-Miscellaneous/">
-<article class="md"><h2 class="post-title">06-Miscellaneous</h2><div class="excerpt"><p>System ControlBootClockX-BARX-BAR用于提供灵活的数据通路，DSP中X-BAR有四个：
-
-Input X-BAR
-CLB X-BAR
-ePWM X-BAR
-Output X-BAR
-
-Input X-BAR用于将任意一个GPIO信号连接至外设如ADC，eCAP，ePWM。
-程序框架</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-22T16:00:00.000Z">2022-01-23</time></span><span class="cap breadcrumb">DSP</span></div></article>
-</a><a class="post-card post " href="/2022/01/22/05-Interrupt/">
-<article class="md"><h2 class="post-title">05-Interrupt</h2><div class="excerpt"><p>中断信号通路
-中断分为三级，分别是外设级中断，PIE级中断和CPU级中断。
-Peripheral Stage外设本身中断信号的产生，外设可能用一个中断信号代表多种事件，如传输完成或传输错误，所以需要使用peripheral&#39;s status register去表示中断类型，当然这也表示在一次中断之后我们应当及时清除中断标志位。
-Pie Stage似乎可以简单的理解为Pie扩展了CPU...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-21T16:00:00.000Z">2022-01-22</time></span><span class="cap breadcrumb">DSP</span></div></article>
-</a><a class="post-card post " href="/2022/01/20/02-GPIO/">
-<article class="md"><h2 class="post-title">02-GPIO</h2><div class="excerpt"><p>该部分内容主要参考TMS320F2837xD Dual-Core Delfino Microcontrollers Technical Reference Manual(Rev.I)的Chap8,General-Purpose Input/Output (GPIO)
-硬件基础GPIO34作为开发板上的红灯
-
-GPIO基本介绍
-Up to twelve independent peripher...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-19T16:00:00.000Z">2022-01-20</time></span><span class="cap breadcrumb">DSP</span></div></article>
-</a><a class="post-card post " href="/2022/01/18/01-Project/">
-<article class="md"><h2 class="post-title">01-Project</h2><div class="excerpt"><p>简单工程创建采用的开发板为德州仪器官方的LAUNCHXL-F28379D，搭载德州仪器的TMS320F28379D双核DSP
-建立工程主要参考C2000WARE中的ti\c2000\C2000Ware_4_00_00_00\device_support\f2837xd\docs\F2837xD_FRM_EX_UG.pdf
-软件采用最新版本的CCS11
-只建立基本的CPU1程序，原文件该部分内...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-17T16:00:00.000Z">2022-01-18</time></span><span class="cap breadcrumb">DSP</span></div></article>
+<article class="md"><h2 class="post-title">OpenCV</h2><div class="excerpt"><p>imread方法 imshow imwrite
+VideoCapture 实例化对象cap isOpened方法
+read方法：读取一帧，返回ret,frame元组 get获取参数 set设置参数
+release
+VideoWrite 实例化对象out write release
+绘图 img = np.zeros((512,512,3), np.uint8) # 创建空白图像 r...</p></div><div class="meta cap"><span class="cap" id="post-meta">Posted on&nbsp;<time datetime="2022-07-30T16:00:00.000Z">2022-07-31</time></span><span class="cap breadcrumb">Computer Vision</span></div></article>
 </a></div>
   
 
 
 
       
-<footer class="page-footer reveal fs12"><hr><div class="text"><p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
-<p>本站由 <a href="http://example.com/">@Werty Wang</a> 创建，使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.8.0" title="v1.8.0">Stellar</a> 作为主题。</p>
+<footer class="page-footer reveal fs12"><hr><div class="text"><p>All articles in this blog are licensed under <a
+target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA
+4.0</a> unless stating additionally.</p>
+<p>This site was deployed by <a href="http://example.com/"><span
+class="citation" data-cites="Werty">@Werty</span> Wang</a> using <a
+target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.8.0"
+title="v1.8.0">Stellar</a>.</p>
 </div></footer>
 
       <div class='float-panel mobile-only blur' style='display:none'>
@@ -306,39 +336,39 @@ Up to twelve independent peripher...</p></div><div class="meta cap"><span class=
       }
     }
   };
-  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.6.1';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.8.0';
   stellar.config = {
     date_suffix: {
-      just: '刚刚',
-      min: '分钟前',
-      hour: '小时前',
-      day: '天前',
-      month: '个月前',
+      just: 'Just',
+      min: 'minutes ago',
+      hour: 'hours ago',
+      day: 'days ago',
+      month: 'months ago',
     },
   };
 
   // required plugins (only load if needs)
   stellar.plugins = {
-    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js',
+    jQuery: 'https://fastly.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js',
     sitesjs: '/js/plugins/sites.js',
     friendsjs: '/js/plugins/friends.js',
   };
 
   // optional plugins
   if ('true' == 'true') {
-    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.1/dist/lazyload.min.js","transition":"blur"});
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://fastly.jsdelivr.net/npm/vanilla-lazyload@17.3.1/dist/lazyload.min.js","transition":"blur"});
   }
   if ('true' == 'true') {
     stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@6/swiper-bundle.min.css","js":"https://unpkg.com/swiper@6/swiper-bundle.min.js"});
   }
   if ('' == 'true') {
-    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://cdn.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://fastly.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
   }
   if ('true' == 'true') {
-    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://cdn.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://fastly.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://fastly.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
   }
-  if ('' == 'true') {
-    stellar.plugins.fancybox = Object.assign("https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css");
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://fastly.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://fastly.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
   }
   if ('false' == 'true') {
     stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti/umd/heti.min.css","js":"https://unpkg.com/heti/umd/heti-addon.min.js"});
