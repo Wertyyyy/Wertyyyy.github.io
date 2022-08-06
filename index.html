@@ -7,8 +7,9 @@
   
 
   <meta http-equiv='x-dns-prefetch-control' content='on' />
-  <link rel='dns-prefetch' href='https://cdn.jsdelivr.net'>
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='https://fastly.jsdelivr.net'>
+  <link rel="preconnect" href="https://fastly.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
 
   <meta name="renderer" content="webkit">
   <meta name="force-rendering" content="webkit">
@@ -42,7 +43,11 @@
   
 
   
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body>
   
@@ -62,7 +67,7 @@
 <div class="widget-wrap" id="markdown"><div class="widget-header cap dis-select"><span class="name">Werty Wang的博客</span></div><div class="widget-body fs14"><p>记录一些学习中遇到的问题</p>
 </div></div>
 
-<div class="widget-wrap" id="recent"><div class="widget-header cap dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><div class="line"></div><a class="more-item" href="/2022/01/23/03-TIM/"><div class="cap"><time>2022-01-23</time><span>DSP</span></div><span class="title">03-TIM</span></a><div class="line"></div><a class="more-item" href="/2022/01/23/04-Analog/"><div class="cap"><time>2022-01-23</time><span>DSP</span></div><span class="title">04-Analog</span></a><div class="line"></div><a class="more-item" href="/2022/01/23/06-Miscellaneous/"><div class="cap"><time>2022-01-23</time><span>DSP</span></div><span class="title">06-Miscellaneous</span></a><div class="line"></div><a class="more-item" href="/2022/01/22/05-Interrupt/"><div class="cap"><time>2022-01-23</time><span>DSP</span></div><span class="title">05-Interrupt</span></a><div class="line"></div><a class="more-item" href="/2022/01/23/07-Commuication/"><div class="cap"><time>2022-01-23</time><span>DSP</span></div><span class="title">07-Communication</span></a></div></div>
+<div class="widget-wrap" id="recent"><div class="widget-header cap dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><div class="more-item"><a class="title" href="/2022/07/31/OpenCV/">OpenCV</a></div><div class="more-item"><a class="title" href="/2022/01/25/%E7%94%B5%E8%B5%9B%E4%BF%A1%E5%8F%B7%E7%B1%BB%E8%B0%83%E7%A0%94/">电赛调研</a></div><div class="more-item"><a class="title" href="/2022/01/23/03-TIM/">03-TIM</a></div><div class="more-item"><a class="title" href="/2022/01/23/04-Analog/">04-Analog</a></div><div class="more-item"><a class="title" href="/2022/01/23/06-Miscellaneous/">06-Miscellaneous</a></div></div></div>
 </div>
 
 
@@ -100,26 +105,72 @@
   </nav>
 </div>
 
-  <div class="post-list post"><a class="post-card post " href="/2022/01/23/03-TIM/"><article class="md">
-<h2 class="post-title">03-TIM</h2><div class="excerpt"><p>DSP的定时器的功能强大，不再是一个独立的外设，而是被拆分为三个部分，分别是
+  <div class="post-list post"><a class="post-card post " href="/2022/07/31/OpenCV/">
+<article class="md"><h2 class="post-title">OpenCV</h2><div class="excerpt"><p>imread方法imshowimwrite
+VideoCapture 实例化对象cap    isOpened方法    read方法：读取一帧，返回ret,frame元组    get获取参数    set设置参数    release
+VideoWrite 实例化对象out    write    release
+绘图img = np.zeros((512,512,3), np.uint...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-07-30T16:00:00.000Z">2022-07-31</time></span><span class="cap breadcrumb">Computer Vision</span></div></article>
+</a><a class="post-card post " href="/2022/04/03/01-Verlog/">
+<article class="md"><h2 class="post-title">2022-04-03</h2><div class="excerpt"><p>Verilog概述然后呢模块（类型）定义（同时实例化，内部端口以及外部都是全局的）module name_of_module(    input a;    output y;    inout)
+// wire… 线类型（可以定义为某个逻辑门的输出// reg…  寄存器类型    在assign内被赋值的为wire，在always内被赋值的是regassign y=a;always@(…...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-04-03T11:09:36.837Z">2022-04-03</time></span></div></article>
+</a><a class="post-card post " href="/2022/01/25/%E7%94%B5%E8%B5%9B%E4%BF%A1%E5%8F%B7%E7%B1%BB%E8%B0%83%E7%A0%94/">
+<article class="md"><h2 class="post-title">电赛调研</h2><div class="excerpt"><p>2020-E 放大器非线性失真研究装置要求搭建受控晶体管放大电路。
+控制放大电路输出正常波形，顶部失真，底部失真，双向失真，交越失真。（有一个地方不是很清楚，应该是人手动控制还是数控，好像人手动控制也可以
+测量总谐波失真。
+使用到的器材
+搭建由分立元件组成的晶体管受控放大电路所需的原件
+
+ADC输入电路，包括：
+
+缓冲
+直流转换
+衰减/放大
+
+
+
+参考资料
+https://blog.csdn...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-24T16:00:00.000Z">2022-01-25</time></span><span class="cap breadcrumb">电赛</span></div></article>
+</a><a class="post-card post " href="/2022/01/24/07-Commuication/">
+<article class="md"><h2 class="post-title">07-Communication</h2><div class="excerpt"><p>SCI双线异步串行总线，即UART
+框图
+信号通路
+寄存器在全双工模式下，需要用到下列寄存器
+
+SCICTL1：SCI控制寄存器1
+6：RXERRINTENA：接收错误中断使能
+0：禁用
+1：启用
+
+
+5：SWRESET：SCI软件重置  初始化SCI状态机和状态标志
+3：TXWAKE：发送唤起模式选择
+2：SLEEP：SCI睡眠使能
+0：禁用
+1：启用
+
+
+1：TXENA：SCI发送使能
+...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-23T16:00:00.000Z">2022-01-24</time></span><span class="cap breadcrumb">DSP</span></div></article>
+</a><a class="post-card post " href="/2022/01/23/03-TIM/">
+<article class="md"><h2 class="post-title">03-TIM</h2><div class="excerpt"><p>DSP的定时器的功能强大，不再是一个独立的外设，而是被拆分为三个部分，分别是
 
 ePWM:Enhanced Pulse Width Modulator
 eCAP:Enhanced Quadrature Encoder Pulse
 eQEP:Enhanced Capture
 
 由于假期在家没有示波器，所以有些功能只调试个大概
-Timer28379有三个32位的定时器CPU Timer 0/1/...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-22T16:00:00.000Z">2022-01-23</time></span><span class="cap breadcrumb">DSP</span><div>
-</article></a><a class="post-card post " href="/2022/01/23/04-Analog/"><article class="md">
-<h2 class="post-title">04-Analog</h2><div class="excerpt"><p>DSP的模拟主要有四个部分：
+Timer28379有三个32位的定时器CPU Timer 0/1/...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-22T16:00:00.000Z">2022-01-23</time></span><span class="cap breadcrumb">DSP</span></div></article>
+</a><a class="post-card post " href="/2022/01/23/04-Analog/">
+<article class="md"><h2 class="post-title">04-Analog</h2><div class="excerpt"><p>DSP的模拟主要有四个部分：
 
 ADC Analog-to-Digital Converter
+Temperature Sensor
 DAC Buffered Digital-to-Analog Converter 
 CMPSS Comparator Subsystem
-SDFM Sigma Delta Filter Module
 
-</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-22T16:00:00.000Z">2022-01-23</time></span><span class="cap breadcrumb">DSP</span><div>
-</article></a><a class="post-card post " href="/2022/01/23/06-Miscellaneous/"><article class="md">
-<h2 class="post-title">06-Miscellaneous</h2><div class="excerpt"><p>System ControlBootClockX-BARX-BAR用于提供灵活的数据通路，DSP中X-BAR有四个：
+ADC总述ADC模块是一个逐次逼近（SAR）型ADC，可配置为16位或12位，由一个core和一个wrapper构成。c...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-22T16:00:00.000Z">2022-01-23</time></span><span class="cap breadcrumb">DSP</span></div></article>
+</a><a class="post-card post " href="/2022/01/23/06-Miscellaneous/">
+<article class="md"><h2 class="post-title">06-Miscellaneous</h2><div class="excerpt"><p>System ControlBootClockX-BARX-BAR用于提供灵活的数据通路，DSP中X-BAR有四个：
 
 Input X-BAR
 CLB X-BAR
@@ -127,33 +178,31 @@ ePWM X-BAR
 Output X-BAR
 
 Input X-BAR用于将任意一个GPIO信号连接至外设如ADC，eCAP，ePWM。
-程序框架</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-22T16:00:00.000Z">2022-01-23</time></span><span class="cap breadcrumb">DSP</span><div>
-</article></a><a class="post-card post " href="/2022/01/23/07-Commuication/"><article class="md">
-<h2 class="post-title">07-Communication</h2><div class="excerpt"><p></p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-22T16:00:00.000Z">2022-01-23</time></span><span class="cap breadcrumb">DSP</span><div>
-</article></a><a class="post-card post " href="/2022/01/22/05-Interrupt/"><article class="md">
-<h2 class="post-title">05-Interrupt</h2><div class="excerpt"><p>中断信号通路
+程序框架</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-22T16:00:00.000Z">2022-01-23</time></span><span class="cap breadcrumb">DSP</span></div></article>
+</a><a class="post-card post " href="/2022/01/22/05-Interrupt/">
+<article class="md"><h2 class="post-title">05-Interrupt</h2><div class="excerpt"><p>中断信号通路
 中断分为三级，分别是外设级中断，PIE级中断和CPU级中断。
 Peripheral Stage外设本身中断信号的产生，外设可能用一个中断信号代表多种事件，如传输完成或传输错误，所以需要使用peripheral&#39;s status register去表示中断类型，当然这也表示在一次中断之后我们应当及时清除中断标志位。
-Pie Stage似乎可以简单的理解为Pie扩展了CPU...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-21T16:00:00.000Z">2022-01-22</time></span><span class="cap breadcrumb">DSP</span><div>
-</article></a><a class="post-card post " href="/2022/01/20/02-GPIO/"><article class="md">
-<h2 class="post-title">02-GPIO</h2><div class="excerpt"><p>该部分内容主要参考TMS320F2837xD Dual-Core Delfino Microcontrollers Technical Reference Manual(Rev.I)的Chap8,General-Purpose Input/Output (GPIO)
+Pie Stage似乎可以简单的理解为Pie扩展了CPU...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-21T16:00:00.000Z">2022-01-22</time></span><span class="cap breadcrumb">DSP</span></div></article>
+</a><a class="post-card post " href="/2022/01/20/02-GPIO/">
+<article class="md"><h2 class="post-title">02-GPIO</h2><div class="excerpt"><p>该部分内容主要参考TMS320F2837xD Dual-Core Delfino Microcontrollers Technical Reference Manual(Rev.I)的Chap8,General-Purpose Input/Output (GPIO)
 硬件基础GPIO34作为开发板上的红灯
 
 GPIO基本介绍
-Up to twelve independent peripher...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-19T16:00:00.000Z">2022-01-20</time></span><span class="cap breadcrumb">DSP</span><div>
-</article></a><a class="post-card post " href="/2022/01/18/01-Project/"><article class="md">
-<h2 class="post-title">01-Project</h2><div class="excerpt"><p>简单工程创建采用的开发板为德州仪器官方的LAUNCHXL-F28379D，搭载德州仪器的TMS320F28379D双核DSP
+Up to twelve independent peripher...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-19T16:00:00.000Z">2022-01-20</time></span><span class="cap breadcrumb">DSP</span></div></article>
+</a><a class="post-card post " href="/2022/01/18/01-Project/">
+<article class="md"><h2 class="post-title">01-Project</h2><div class="excerpt"><p>简单工程创建采用的开发板为德州仪器官方的LAUNCHXL-F28379D，搭载德州仪器的TMS320F28379D双核DSP
 建立工程主要参考C2000WARE中的ti\c2000\C2000Ware_4_00_00_00\device_support\f2837xd\docs\F2837xD_FRM_EX_UG.pdf
 软件采用最新版本的CCS11
-只建立基本的CPU1程序，原文件该部分内...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-17T16:00:00.000Z">2022-01-18</time></span><span class="cap breadcrumb">DSP</span><div>
-</article></a></div>
+只建立基本的CPU1程序，原文件该部分内...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-01-17T16:00:00.000Z">2022-01-18</time></span><span class="cap breadcrumb">DSP</span></div></article>
+</a></div>
   
 
 
 
       
 <footer class="page-footer reveal fs12"><hr><div class="text"><p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
-<p>本站由 <a href="http://example.com/">@Werty Wang</a> 创建，使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.6.1" title="v1.6.1">Stellar</a> 作为主题。</p>
+<p>本站由 <a href="http://example.com/">@Werty Wang</a> 创建，使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.8.0" title="v1.8.0">Stellar</a> 作为主题。</p>
 </div></footer>
 
       <div class='float-panel mobile-only blur' style='display:none'>
@@ -287,6 +336,12 @@ Up to twelve independent peripher...</p></div><div class="meta cap"><span class=
   }
   if ('true' == 'true') {
     stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://cdn.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.fancybox = Object.assign("https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css");
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti/umd/heti.min.css","js":"https://unpkg.com/heti/umd/heti-addon.min.js"});
   }
 </script>
 

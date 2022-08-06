@@ -7,8 +7,9 @@
   
 
   <meta http-equiv='x-dns-prefetch-control' content='on' />
-  <link rel='dns-prefetch' href='https://cdn.jsdelivr.net'>
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='https://fastly.jsdelivr.net'>
+  <link rel="preconnect" href="https://fastly.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
 
   <meta name="renderer" content="webkit">
   <meta name="force-rendering" content="webkit">
@@ -27,12 +28,12 @@
 <meta property="og:site_name" content="Werty Wang">
 <meta property="og:description" content="中断信号通路 中断分为三级，分别是外设级中断，PIE级中断和CPU级中断。 Peripheral Stage外设本身中断信号的产生，外设可能用一个中断信号代表多种事件，如传输完成或传输错误，所以需要使用peripheral&#39;s status register去表示中断类型，当然这也表示在一次中断之后我们应当及时清除中断标志位。 Pie Stage似乎可以简单的理解为Pie扩展了CPU的中断">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2022/01/22/05-Interrupt/%E4%B8%AD%E6%96%AD%E4%BF%A1%E5%8F%B7%E9%80%9A%E8%B7%AF.png">
+<meta property="og:image" content="http://example.com/2022/01/22/05-Interrupt/中断信号通路.png">
 <meta property="article:published_time" content="2022-01-21T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-01-22T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-01-23T16:00:00.000Z">
 <meta property="article:author" content="Werty Wang">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2022/01/22/05-Interrupt/%E4%B8%AD%E6%96%AD%E4%BF%A1%E5%8F%B7%E9%80%9A%E8%B7%AF.png">
+<meta name="twitter:image" content="http://example.com/2022/01/22/05-Interrupt/中断信号通路.png">
   
   
 
@@ -48,10 +49,16 @@
   
 
   
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body>
   
+
+
 
 
   <div class='l_body' id='start'>
@@ -66,7 +73,7 @@
 
 <div class="widgets">
 
-<div class="widget-wrap single" id="toc"><div class="widget-header cap dis-select"><span class="name">本文目录</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%AD%E6%96%AD%E4%BF%A1%E5%8F%B7%E9%80%9A%E8%B7%AF"><span class="toc-text">中断信号通路</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Peripheral-Stage"><span class="toc-text">Peripheral Stage</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Pie-Stage"><span class="toc-text">Pie Stage</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CPU-Stage"><span class="toc-text">CPU Stage</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%AD%E6%96%AD%E5%90%91%E9%87%8F%E8%A1%A8"><span class="toc-text">中断向量表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%96%E9%83%A8%E4%B8%AD%E6%96%AD%EF%BC%88XINT%EF%BC%89"><span class="toc-text">外部中断（XINT）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#GPIO"><span class="toc-text">GPIO</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#X-BAR"><span class="toc-text">X-BAR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#XINT"><span class="toc-text">XINT</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PIE"><span class="toc-text">PIE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CPU-Interrput"><span class="toc-text">CPU Interrput</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ISA"><span class="toc-text">ISA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E6%97%B6%E5%99%A8%E4%B8%AD%E6%96%AD"><span class="toc-text">定时器中断</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TIM"><span class="toc-text">TIM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PIE-amp-CPU-Interrupt"><span class="toc-text">PIE&amp;CPU Interrupt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Interrupt-Service-Routine"><span class="toc-text">Interrupt Service Routine</span></a></li></ol></li></ol></div></div></div>
+<div class="widget-wrap single" id="toc"><div class="widget-header cap dis-select"><span class="name">本文目录</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%AD%E6%96%AD%E4%BF%A1%E5%8F%B7%E9%80%9A%E8%B7%AF"><span class="toc-text">中断信号通路</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Peripheral-Stage"><span class="toc-text">Peripheral Stage</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Pie-Stage"><span class="toc-text">Pie Stage</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CPU-Stage"><span class="toc-text">CPU Stage</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%AD%E6%96%AD%E5%90%91%E9%87%8F%E8%A1%A8"><span class="toc-text">中断向量表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%AD%E6%96%AD%E7%A8%8B%E5%BA%8F%E6%A1%86%E6%9E%B6"><span class="toc-text">中断程序框架</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%96%E9%83%A8%E4%B8%AD%E6%96%AD%EF%BC%88XINT%EF%BC%89"><span class="toc-text">外部中断（XINT）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#GPIO"><span class="toc-text">GPIO</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#X-BAR"><span class="toc-text">X-BAR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#XINT"><span class="toc-text">XINT</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PIE"><span class="toc-text">PIE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CPU-Interrput"><span class="toc-text">CPU Interrput</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ISA"><span class="toc-text">ISA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E6%97%B6%E5%99%A8%E4%B8%AD%E6%96%AD"><span class="toc-text">定时器中断</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TIM"><span class="toc-text">TIM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PIE-amp-CPU-Interrupt"><span class="toc-text">PIE&amp;CPU Interrupt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Interrupt-Service-Routine"><span class="toc-text">Interrupt Service Routine</span></a></li></ol></li></ol></div></div></div>
 
 
 </div>
@@ -78,12 +85,11 @@
 
       
 
-
 <div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/DSP/">DSP</a></div><div id="post-meta">发布于&nbsp;<time datetime="2022-01-21T16:00:00.000Z">2022-01-22</time></div></div>
 
 <article class='content md post'>
 <h1 class="article-title"><span>05-Interrupt</span></h1>
-<h2 id="中断信号通路"><a href="#中断信号通路" class="headerlink" title="中断信号通路"></a>中断信号通路</h2><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2022/01/22/05-Interrupt/%E4%B8%AD%E6%96%AD%E4%BF%A1%E5%8F%B7%E9%80%9A%E8%B7%AF.png" alt="中断信号通路"></p>
+<h2 id="中断信号通路"><a href="#中断信号通路" class="headerlink" title="中断信号通路"></a>中断信号通路</h2><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2022/01/22/05-Interrupt/中断信号通路.png" alt="中断信号通路"></p>
 <p>中断分为三级，分别是外设级中断，PIE级中断和CPU级中断。</p>
 <h3 id="Peripheral-Stage"><a href="#Peripheral-Stage" class="headerlink" title="Peripheral Stage"></a>Peripheral Stage</h3><p>外设本身中断信号的产生，外设可能用一个中断信号代表多种事件，如传输完成或传输错误，所以需要使用<code>peripheral&#39;s status register</code>去表示中断类型，当然这也表示在一次中断之后我们应当及时清除中断标志位。</p>
 <h3 id="Pie-Stage"><a href="#Pie-Stage" class="headerlink" title="Pie Stage"></a>Pie Stage</h3><p>似乎可以简单的理解为<code>Pie</code>扩展了CPU的中断能力，每个CPU内核有12个<code>Pie Block</code>，其中每个<code>Pie Block</code>连接到16个中断上</p>
@@ -92,7 +98,7 @@
 <p>当响应触发时，CPU会在ISR中获取编号最小被使能的中断的地址。</p>
 <h3 id="CPU-Stage"><a href="#CPU-Stage" class="headerlink" title="CPU Stage"></a>CPU Stage</h3><p>CPU为每个CPU级中断提供一个标志寄存器（IFR）和使能寄存器（IER）以及一个global中断屏蔽，可以通过宏<code>DINT</code>与<code>EINT</code>关闭或打开全局中断</p>
 <h2 id="中断向量表"><a href="#中断向量表" class="headerlink" title="中断向量表"></a>中断向量表</h2><p>在中断发生时，当前运行的程序与状态被压栈，同时程序跳转至中断服务函数</p>
-<h2 id="外部中断（XINT）"><a href="#外部中断（XINT）" class="headerlink" title="外部中断（XINT）"></a>外部中断（XINT）</h2><h3 id="GPIO"><a href="#GPIO" class="headerlink" title="GPIO"></a>GPIO</h3><p>基本地使能GPIO相关功能</p>
+<h2 id="中断程序框架"><a href="#中断程序框架" class="headerlink" title="中断程序框架"></a>中断程序框架</h2><h2 id="外部中断（XINT）"><a href="#外部中断（XINT）" class="headerlink" title="外部中断（XINT）"></a>外部中断（XINT）</h2><h3 id="GPIO"><a href="#GPIO" class="headerlink" title="GPIO"></a>GPIO</h3><p>基本地使能GPIO相关功能</p>
 <h3 id="X-BAR"><a href="#X-BAR" class="headerlink" title="X-BAR"></a>X-BAR</h3><p>首先注意，28379与28355等型号在此处的配置有较大的差别，差别主要在于28355的GPyDAT直接连接到PIE而28379的GPyDAT通过X-BAR连接到PIE。在此处不详细说明X-BAR的相关特性，只列举Input X-BAR与PIE的连接方式</p>
 <ul>
 <li>INPUT14 -&gt; XINT5</li>
@@ -112,9 +118,7 @@
 <li><p><code>XintRegs.XINT1CR.bit.ENABLE = 1;</code><br>  1：启动XINT中断<br>  0：禁用XINT中断</p>
 </li>
 </ul>
-<h3 id="PIE"><a href="#PIE" class="headerlink" title="PIE"></a>PIE</h3><p>首先</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">DINT;//关闭中断</span><br><span class="line">InitPieCtrl();//PIE初始化</span><br><span class="line">InitPieVectTable();//中断向量表初始化</span><br></pre></td></tr></table></figure>
-<p>需要配置的有</p>
+<h3 id="PIE"><a href="#PIE" class="headerlink" title="PIE"></a>PIE</h3><p>首先<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">DINT;//关闭中断</span><br><span class="line">InitPieCtrl();//PIE初始化</span><br><span class="line">InitPieVectTable();//中断向量表初始化</span><br></pre></td></tr></table></figure><br>需要配置的有</p>
 <ul>
 <li><p><code>PieVectTable.XINT1_INT = &amp;CallBackFunc;</code><br>  将回调函数指针写入PieVectTable中</p>
 </li>
@@ -123,21 +127,17 @@
 </ul>
 <h3 id="CPU-Interrput"><a href="#CPU-Interrput" class="headerlink" title="CPU Interrput"></a>CPU Interrput</h3><p>需要配置的是</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">IER = 0x0000;//IER复位</span><br><span class="line">IFR = 0x0000;//IFR复位</span><br><span class="line">IER |= M_INT1;</span><br></pre></td></tr></table></figure>
-
 <p>同时不要忘记启用全局中断<code>EINT;</code></p>
 <h3 id="ISA"><a href="#ISA" class="headerlink" title="ISA"></a>ISA</h3><p>中断回调函数应当以interrupt为函数返回值，如<code>interrupt void xint1_isr(void)&#123;&#125;</code>，同时应当清楚中断标志位，可以采用例如<code>PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;</code>的操作</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>数据链路：GPIO0 -&gt; X-BAR Channel4 -&gt; XINT1 -&gt; PIE1 Channel4 -&gt; CPU Interrrup Channel1</p>
 <p>其中GPIO -&gt; X-BAR是任意的<br>X-BAR -&gt; XINT可通过查询位于手册中P1188页的X-BAR框图<br>XINT -&gt; X-BAR可通过查询位于手册中P102的Table 3-2. PIE Channel Mapping<br>PIE -&gt; CPU Interrupt可通过查询位于手册中P98的Figure 3-1. Device Interrupt Architecture系统中断框图，不过看起来二者是逐数字对应的</p>
 <p>全部的初始化代码如下</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;F28x_Project.h&quot;</span><br><span class="line"></span><br><span class="line">interrupt void xint1_isr(void);</span><br><span class="line"></span><br><span class="line">void main(void)</span><br><span class="line">&#123;</span><br><span class="line">    InitSysCtrl();</span><br><span class="line"></span><br><span class="line">    // GPIO</span><br><span class="line">    InitGpio();</span><br><span class="line"></span><br><span class="line">    EALLOW;</span><br><span class="line">    GpioCtrlRegs.GPBMUX1.bit.GPIO32=0;</span><br><span class="line">    GpioCtrlRegs.GPBDIR.bit.GPIO32=0;</span><br><span class="line">    GpioCtrlRegs.GPBPUD.bit.GPIO32=0;</span><br><span class="line">    EDIS;</span><br><span class="line"></span><br><span class="line">    EALLOW;</span><br><span class="line">    GpioCtrlRegs.GPBMUX1.bit.GPIO34=0;</span><br><span class="line">    GpioCtrlRegs.GPBDIR.bit.GPIO34=1;</span><br><span class="line">    GpioCtrlRegs.GPBPUD.bit.GPIO34=0;</span><br><span class="line">    EDIS;</span><br><span class="line"></span><br><span class="line">    // X-BAR</span><br><span class="line">    EALLOW;</span><br><span class="line">    InputXbarRegs.INPUT4SELECT = 32;</span><br><span class="line">    EDIS;</span><br><span class="line"></span><br><span class="line">    // XINT</span><br><span class="line">    EALLOW;</span><br><span class="line">    XintRegs.XINT1CR.bit.POLARITY = 0;</span><br><span class="line">    XintRegs.XINT1CR.bit.ENABLE = 1;</span><br><span class="line">    EDIS;</span><br><span class="line"></span><br><span class="line">    // PIE</span><br><span class="line">    DINT;</span><br><span class="line">    InitPieCtrl();</span><br><span class="line">    InitPieVectTable();</span><br><span class="line"></span><br><span class="line">    EALLOW;</span><br><span class="line">    PieVectTable.XINT1_INT = &amp;xint1_isr;</span><br><span class="line">    PieCtrlRegs.PIEIER1.bit.INTx4 = 1;</span><br><span class="line">    EDIS;</span><br><span class="line"></span><br><span class="line">    // CPU Interrupt</span><br><span class="line">    IER = 0x0000;</span><br><span class="line">    IFR = 0x0000;</span><br><span class="line">    IER |= M_INT1;</span><br><span class="line">    EINT;</span><br><span class="line"></span><br><span class="line">    for(;;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">interrupt void xint1_isr(void)</span><br><span class="line">&#123;</span><br><span class="line">    GpioDataRegs.GPBTOGGLE.bit.GPIO34=1;</span><br><span class="line"></span><br><span class="line">    PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这里强调一点，写寄存器时一定不要忘记__去除写保护__</p>
+<p>这里强调一点，写寄存器时一定不要忘记<strong>去除写保护</strong></p>
 <h2 id="定时器中断"><a href="#定时器中断" class="headerlink" title="定时器中断"></a>定时器中断</h2><h3 id="TIM"><a href="#TIM" class="headerlink" title="TIM"></a>TIM</h3><p>基本地使能TIM以及与之配套的GPIO等功能，详细内容间前面各章节</p>
 <h3 id="PIE-amp-CPU-Interrupt"><a href="#PIE-amp-CPU-Interrupt" class="headerlink" title="PIE&amp;CPU Interrupt"></a>PIE&amp;CPU Interrupt</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">DINT;</span><br><span class="line">    </span><br><span class="line">InitPieCtrl();</span><br><span class="line">IER = 0x0000;</span><br><span class="line">IFR = 0x0000;</span><br><span class="line">InitPieVectTable();</span><br><span class="line"></span><br><span class="line">EALLOW;  // This is needed to write to EALLOW protected registers</span><br><span class="line">PieVectTable.TIMER0_INT = &amp;cpu_timer0_isr;</span><br><span class="line">EDIS;    // This is needed to disable write to EALLOW protected registers</span><br><span class="line"></span><br><span class="line">IER |= M_INT1;</span><br><span class="line"></span><br><span class="line">PieCtrlRegs.PIEIER1.bit.INTx7 = 1;</span><br><span class="line"></span><br><span class="line">EINT;</span><br><span class="line">ERTM;</span><br></pre></td></tr></table></figure>
-
 <p>中断信号传递通路：Timer0 -&gt; PIE1 Channel7 -&gt; CPU Interrupt Channel1</p>
 <h3 id="Interrupt-Service-Routine"><a href="#Interrupt-Service-Routine" class="headerlink" title="Interrupt Service Routine"></a>Interrupt Service Routine</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">__interrupt void cpu_timer0_isr(void)</span><br><span class="line">&#123;</span><br><span class="line">   CpuTimer0.InterruptCount++;</span><br><span class="line">   GpioDataRegs.GPBTOGGLE.bit.GPIO34 = 1;</span><br><span class="line"></span><br><span class="line">   PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 
 
 <div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
@@ -145,7 +145,7 @@
 
 </article>
 
-<div class="related-wrap reveal" id="read-next"><section class="header cap theme"><span>接下来阅读</span></section><section class="body fs14"><a id="next" href="/2022/01/20/02-GPIO/">02-GPIO<span class="note">较早</span></a><div class="line"></div><a id="prev" href="/2022/01/23/07-Commuication/">07-Communication<span class="note">较新</span></a></section></div>
+<div class="related-wrap reveal" id="read-next"><section class="header cap theme"><span>接下来阅读</span></section><section class="body fs14"><a id="next" href="/2022/01/20/02-GPIO/">02-GPIO<span class="note">较早</span></a><div class="line"></div><a id="prev" href="/2022/01/23/06-Miscellaneous/">06-Miscellaneous<span class="note">较新</span></a></section></div>
 
 
 
@@ -156,7 +156,7 @@
 
       
 <footer class="page-footer reveal fs12"><hr><div class="text"><p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
-<p>本站由 <a href="http://example.com/">@Werty Wang</a> 创建，使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.6.1" title="v1.6.1">Stellar</a> 作为主题。</p>
+<p>本站由 <a href="http://example.com/">@Werty Wang</a> 创建，使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.8.0" title="v1.8.0">Stellar</a> 作为主题。</p>
 </div></footer>
 
       <div class='float-panel mobile-only blur' style='display:none'>
@@ -290,6 +290,12 @@
   }
   if ('true' == 'true') {
     stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://cdn.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.fancybox = Object.assign("https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css");
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti/umd/heti.min.css","js":"https://unpkg.com/heti/umd/heti-addon.min.js"});
   }
 </script>
 

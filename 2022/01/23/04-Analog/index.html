@@ -7,8 +7,9 @@
   
 
   <meta http-equiv='x-dns-prefetch-control' content='on' />
-  <link rel='dns-prefetch' href='https://cdn.jsdelivr.net'>
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='https://fastly.jsdelivr.net'>
+  <link rel="preconnect" href="https://fastly.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
 
   <meta name="renderer" content="webkit">
   <meta name="force-rendering" content="webkit">
@@ -20,17 +21,22 @@
   <title>04-Analog - Werty Wang</title>
 
   
-    <meta name="description" content="DSP的模拟主要有四个部分：  ADC Analog-to-Digital Converter DAC Buffered Digital-to-Analog Converter  CMPSS Comparator Subsystem SDFM Sigma Delta Filter Module">
+    <meta name="description" content="DSP的模拟主要有四个部分：  ADC Analog-to-Digital Converter Temperature Sensor DAC Buffered Digital-to-Analog Converter  CMPSS Comparator Subsystem  ADC总述ADC模块是一个逐次逼近（SAR）型ADC，可配置为16位或12位，由一个core和一个wrapper构成。core">
 <meta property="og:type" content="article">
 <meta property="og:title" content="04-Analog">
 <meta property="og:url" content="http://example.com/2022/01/23/04-Analog/index.html">
 <meta property="og:site_name" content="Werty Wang">
-<meta property="og:description" content="DSP的模拟主要有四个部分：  ADC Analog-to-Digital Converter DAC Buffered Digital-to-Analog Converter  CMPSS Comparator Subsystem SDFM Sigma Delta Filter Module">
+<meta property="og:description" content="DSP的模拟主要有四个部分：  ADC Analog-to-Digital Converter Temperature Sensor DAC Buffered Digital-to-Analog Converter  CMPSS Comparator Subsystem  ADC总述ADC模块是一个逐次逼近（SAR）型ADC，可配置为16位或12位，由一个core和一个wrapper构成。core">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/01/23/04-Analog/ADC框图.png">
+<meta property="og:image" content="http://example.com/2022/01/23/04-Analog/ADC_SOC框图.png">
+<meta property="og:image" content="http://example.com/2022/01/23/04-Analog/ADC_EOC框图.png">
+<meta property="og:image" content="http://example.com/2022/01/23/04-Analog/DAC框图.png">
 <meta property="article:published_time" content="2022-01-22T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-01-22T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-01-23T16:00:00.000Z">
 <meta property="article:author" content="Werty Wang">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/01/23/04-Analog/ADC框图.png">
   
   
 
@@ -46,10 +52,16 @@
   
 
   
-</head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
 
 <body>
   
+
+
 
 
   <div class='l_body' id='start'>
@@ -64,9 +76,7 @@
 
 <div class="widgets">
 
-
-<div class="widget-wrap" id="recent"><div class="widget-header cap dis-select"><span class="name">最近更新</span></div><div class="widget-body fs14"><div class="line"></div><a class="more-item" href="/2022/01/23/03-TIM/"><div class="cap"><time>2022-01-23</time><span>DSP</span></div><span class="title">03-TIM</span></a><div class="line"></div><a class="more-item" href="/2022/01/23/04-Analog/"><div class="cap"><time>2022-01-23</time><span>DSP</span></div><span class="title">04-Analog</span></a><div class="line"></div><a class="more-item" href="/2022/01/23/06-Miscellaneous/"><div class="cap"><time>2022-01-23</time><span>DSP</span></div><span class="title">06-Miscellaneous</span></a><div class="line"></div><a class="more-item" href="/2022/01/22/05-Interrupt/"><div class="cap"><time>2022-01-23</time><span>DSP</span></div><span class="title">05-Interrupt</span></a><div class="line"></div><a class="more-item" href="/2022/01/23/07-Commuication/"><div class="cap"><time>2022-01-23</time><span>DSP</span></div><span class="title">07-Communication</span></a></div></div>
-
+<div class="widget-wrap single" id="toc"><div class="widget-header cap dis-select"><span class="name">本文目录</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ADC"><span class="toc-text">ADC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E8%BF%B0"><span class="toc-text">总述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%86%E5%9B%BE"><span class="toc-text">框图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ADC%E9%85%8D%E7%BD%AE"><span class="toc-text">ADC配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%B6%E9%92%9F"><span class="toc-text">时钟</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B2%BE%E5%BA%A6"><span class="toc-text">精度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E7%AB%AF%E4%B8%8E%E5%B7%AE%E5%88%86%E6%A8%A1%E5%BC%8F"><span class="toc-text">单端与差分模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A2%84%E6%B5%8B%E8%BE%93%E5%87%BA%E7%BB%93%E6%9E%9C"><span class="toc-text">预测输出结果</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%E8%BE%93%E5%87%BA%E7%BB%93%E6%9E%9C"><span class="toc-text">转换输出结果</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SOC%E9%85%8D%E7%BD%AE"><span class="toc-text">SOC配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SOC%E6%A1%86%E5%9B%BE"><span class="toc-text">SOC框图</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%84%E5%AD%98%E5%99%A8"><span class="toc-text">寄存器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EOC%E4%B8%8EInterrupt%E9%85%8D%E7%BD%AE"><span class="toc-text">EOC与Interrupt配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A1%86%E5%9B%BE-1"><span class="toc-text">框图</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AF%84%E5%AD%98%E5%99%A8-1"><span class="toc-text">寄存器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B8%E5%9E%8B%E5%BA%94%E7%94%A8"><span class="toc-text">典型应用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E9%80%9A%E9%81%93%E8%BD%AF%E4%BB%B6%E8%A7%A6%E5%8F%91%E8%BD%AC%E6%8D%A2"><span class="toc-text">多通道软件触发转换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E9%80%9A%E9%81%93%E8%BF%9E%E7%BB%AD%E8%BD%AC%E6%8D%A2"><span class="toc-text">多通道连续转换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E9%80%9A%E9%81%93%E4%B8%AD%E6%96%AD%E8%BD%AC%E6%8D%A2"><span class="toc-text">多通道中断转换</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DAC"><span class="toc-text">DAC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E8%BF%B0-1"><span class="toc-text">总述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A1%86%E5%9B%BE-2"><span class="toc-text">框图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%84%E5%AD%98%E5%99%A8-2"><span class="toc-text">寄存器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%B5%81%E7%A8%8B"><span class="toc-text">配置流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B8%E5%9E%8B%E5%BA%94%E7%94%A8-1"><span class="toc-text">典型应用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E4%B8%BAVREFHI"><span class="toc-text">参考为VREFHI</span></a></li></ol></li></ol></li></ol></div></div></div>
 
 
 </div>
@@ -78,7 +88,6 @@
 
       
 
-
 <div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/DSP/">DSP</a></div><div id="post-meta">发布于&nbsp;<time datetime="2022-01-22T16:00:00.000Z">2022-01-23</time></div></div>
 
 <article class='content md post'>
@@ -86,10 +95,112 @@
 <p>DSP的模拟主要有四个部分：</p>
 <ul>
 <li>ADC Analog-to-Digital Converter</li>
+<li>Temperature Sensor</li>
 <li>DAC Buffered Digital-to-Analog Converter </li>
 <li>CMPSS Comparator Subsystem</li>
-<li>SDFM Sigma Delta Filter Module</li>
 </ul>
+<h2 id="ADC"><a href="#ADC" class="headerlink" title="ADC"></a>ADC</h2><h3 id="总述"><a href="#总述" class="headerlink" title="总述"></a>总述</h3><p>ADC模块是一个逐次逼近（SAR）型ADC，可配置为16位或12位，由一个core和一个wrapper构成。core包含通道选择复用器，采样保持电路，逐次逼近电路，电压基准电路等，wrapper包括ADC的数字控制电路</p>
+<p>每个ADC包括一个采样保持电路，支持独立工作或多ADC交织，ADC控制电路（wrapper）基于start-of-conversion工作</p>
+<p>特性有</p>
+<ul>
+<li>可选择的12位，16位分辨率</li>
+<li>仅支持外置电压基准VREFHI，VREFLO</li>
+<li>差分信号转换（仅16位）</li>
+<li>单端信号转换（仅12位）</li>
+<li>输入复用器包括至多16通道（单端）或8通道（差分）</li>
+<li>16个独立转换结果寄存器</li>
+<li>剩下的先不管</li>
+</ul>
+<p>对于ADC，我觉得仅仅掌握单通道或多通道连续转换或是中断转换就可以了。</p>
+<h3 id="框图"><a href="#框图" class="headerlink" title="框图"></a>框图</h3><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2022/01/23/04-Analog/ADC框图.png" alt="ADC框图"></p>
+<h3 id="ADC配置"><a href="#ADC配置" class="headerlink" title="ADC配置"></a>ADC配置</h3><h4 id="时钟"><a href="#时钟" class="headerlink" title="时钟"></a>时钟</h4><p>ADC手中信号为ADCCLK，由SYSCLK经过ADCCTL2.PRESCALE分频后得到</p>
+<p>在16bit精度下，大约需要29.5个ADCCLK时钟周期去完成一次转换，在12bit精度下，则需要10.5个时钟周期</p>
+<h4 id="精度"><a href="#精度" class="headerlink" title="精度"></a>精度</h4><p>通过AdcSetMode()或ADC_setMode()函数，不要通过直接写入ADCCTL2的方式配置精度</p>
+<p>当ADC处于闲置状态时，可以改变其精度</p>
+<h4 id="单端与差分模式"><a href="#单端与差分模式" class="headerlink" title="单端与差分模式"></a>单端与差分模式</h4><p>单端模式下，模拟信号通过一个单独的ADCINx引脚输入</p>
+<p>差分模式下，VREFLO必须连接到VSSA</p>
+<p>通过AdcSetMode()或ADC_setMode()函数确定转换方式，在设备Reset后，这些函数至少需要被调用一次。不要通过直接写入ADCCTL2寄存器的方式配置。</p>
+<h4 id="预测输出结果"><a href="#预测输出结果" class="headerlink" title="预测输出结果"></a>预测输出结果</h4><p>单端输入时</p>
+<script type="math/tex; mode=display">ADCRESULTx= 
+\begin{cases} 
+0,                                                  & \text {ADCINy<VREFLO} \\ 
+4096\times \frac{ADCINy-VREFLO}{VREFHI-VREFLO},     & \text{VREFLO<ADCINy<VREFHI} \\
+4095,                                               & \text{ADCINy>VREFHI} 
+\end{cases}</script><p>双端输入时</p>
+<script type="math/tex; mode=display">ADCRESULTx= 
+\begin{cases} 
+0,                                                  & \text {ADCINyP-ADCINyN<-VREFHI} \\ 
+65336 \times \frac{ADCINyP-ADCINyN-VREFHI}{2 \times VREFHI}, & \text{-VREFHI<ADCINyP-ADCINyN<VREFHI} \\ 
+65336,                                              & \text{ADCINyP-ADCINyN>VREFHI} 
+\end{cases}</script><h4 id="转换输出结果"><a href="#转换输出结果" class="headerlink" title="转换输出结果"></a>转换输出结果</h4><p>单端输入时</p>
+<script type="math/tex; mode=display">ADCINx= (VREFHI-VREFLO)\times(\frac{ADCRESULTy}{4096})+VREFLO</script><p>双端输入时</p>
+<script type="math/tex; mode=display">ADCINxP-ADCINxN=VREFHI(\frac{2 \times ADCRESULTy}{65536}-1)</script><h3 id="SOC配置"><a href="#SOC配置" class="headerlink" title="SOC配置"></a>SOC配置</h3><h4 id="SOC框图"><a href="#SOC框图" class="headerlink" title="SOC框图"></a>SOC框图</h4><p>SOC的配置包含以下三个部分</p>
+<ul>
+<li>触发源的选择</li>
+<li>转换通道</li>
+<li>转换时间</li>
+</ul>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2022/01/23/04-Analog/ADC_SOC框图.png" alt="SOC框图"></p>
+<h4 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h4><ul>
+<li>ADCSOCxCTL<ul>
+<li>TRIGSEL：触发选择<br>  目前只考虑软件触发，可通过<code>AdcaRegs.ADCSOCFRC1.all = 0x0003;</code>触发</li>
+<li>CHSEL：通道选择<ul>
+<li>单端输入：x &lt;-&gt; ADCINx</li>
+<li>双端输入：2x or 2x+1 &lt;-&gt; P:ADCIN2x N:ADCIN2x+1</li>
+</ul>
+</li>
+<li>ACQPS：转换时间寄存器<br>  9bit 范围为0-511<br>  转换时间=$(ACQPS+1) \times (SYSCLK time)$。值得注意的是，转换时间不由ADCCLK计算且时间最少为一个ADCCLK周期</li>
+</ul>
+</li>
+</ul>
+<h3 id="EOC与Interrupt配置"><a href="#EOC与Interrupt配置" class="headerlink" title="EOC与Interrupt配置"></a>EOC与Interrupt配置</h3><p>每个SOC有一个相对应的EOC信号，可用于产生ADC中断。该信号可在acquisition window结束时或在转换结束时产生（ADCCTL1.INTPULSEPOS）</p>
+<p>每个ADC模块由4个可配置的ADC中断，可被任意16个EOC信号触发</p>
+<h4 id="框图-1"><a href="#框图-1" class="headerlink" title="框图"></a>框图</h4><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2022/01/23/04-Analog/ADC_EOC框图.png" alt="EOC框图"></p>
+<h4 id="寄存器-1"><a href="#寄存器-1" class="headerlink" title="寄存器"></a>寄存器</h4><ul>
+<li>INTSELxN2<ul>
+<li>INTxSEL</li>
+<li>INTxE</li>
+<li>INTxCONT：ADC连续模式配置</li>
+</ul>
+</li>
+</ul>
+<h3 id="典型应用"><a href="#典型应用" class="headerlink" title="典型应用"></a>典型应用</h3><h4 id="多通道软件触发转换"><a href="#多通道软件触发转换" class="headerlink" title="多通道软件触发转换"></a>多通道软件触发转换</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;F28x_Project.h&quot;</span><br><span class="line"></span><br><span class="line">void ConfigureADC(void);</span><br><span class="line">void SetupADCSoftware(void);</span><br><span class="line"></span><br><span class="line">Uint16 AdcaResult0;</span><br><span class="line">Uint16 AdcaResult1;</span><br><span class="line">float temp;</span><br><span class="line"></span><br><span class="line">void main(void)</span><br><span class="line">&#123;</span><br><span class="line">    InitSysCtrl();</span><br><span class="line">    InitGpio();</span><br><span class="line">    DINT;</span><br><span class="line">    InitPieCtrl();</span><br><span class="line">    IER = 0x0000;</span><br><span class="line">    IFR = 0x0000;</span><br><span class="line">    InitPieVectTable();</span><br><span class="line">    EINT;  // Enable Global interrupt INTM</span><br><span class="line">    ERTM;  // Enable Global realtime interrupt DBGM</span><br><span class="line"></span><br><span class="line">    ConfigureADC();</span><br><span class="line">    SetupADCSoftware();</span><br><span class="line"></span><br><span class="line">    do</span><br><span class="line">    &#123;</span><br><span class="line">        AdcaRegs.ADCSOCFRC1.all = 0x0003; //SOC0 and SOC1</span><br><span class="line"></span><br><span class="line">        while(AdcaRegs.ADCINTFLG.bit.ADCINT1 == 0);</span><br><span class="line">        AdcaRegs.ADCINTFLGCLR.bit.ADCINT1 = 1;</span><br><span class="line"></span><br><span class="line">        AdcaResult0 = AdcaResultRegs.ADCRESULT0;</span><br><span class="line">        AdcaResult1 = AdcaResultRegs.ADCRESULT1;</span><br><span class="line">        temp=3*((float)(AdcaResult0)/4096);</span><br><span class="line"></span><br><span class="line">    &#125;while(1);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void ConfigureADC(void)</span><br><span class="line">&#123;</span><br><span class="line">    EALLOW;</span><br><span class="line">    AdcaRegs.ADCCTL2.bit.PRESCALE = 6; //set ADCCLK divider to /4</span><br><span class="line">    AdcSetMode(ADC_ADCA, ADC_RESOLUTION_12BIT, ADC_SIGNALMODE_SINGLE);</span><br><span class="line"></span><br><span class="line">    //Set pulse positions to late</span><br><span class="line">    AdcaRegs.ADCCTL1.bit.INTPULSEPOS = 1;</span><br><span class="line"></span><br><span class="line">    //power up the ADCs</span><br><span class="line">    AdcaRegs.ADCCTL1.bit.ADCPWDNZ = 1;</span><br><span class="line"></span><br><span class="line">    DELAY_US(1000);</span><br><span class="line">    EDIS;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void SetupADCSoftware(void)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    EALLOW;</span><br><span class="line">    AdcaRegs.ADCSOC0CTL.bit.CHSEL = 2;  //SOC0 will convert pin A2</span><br><span class="line">    AdcaRegs.ADCSOC0CTL.bit.ACQPS = 19; //sample window is acqps +</span><br><span class="line">                                           //1 SYSCLK cycles</span><br><span class="line">    AdcaRegs.ADCSOC1CTL.bit.CHSEL = 3;  //SOC1 will convert pin A3</span><br><span class="line">    AdcaRegs.ADCSOC1CTL.bit.ACQPS = 19; //sample window is acqps +</span><br><span class="line">                                           //1 SYSCLK cycles</span><br><span class="line">    AdcaRegs.ADCINTSEL1N2.bit.INT1SEL = 1; //end of SOC1 will set INT1 flag</span><br><span class="line">    AdcaRegs.ADCINTSEL1N2.bit.INT1E = 1;   //enable INT1 flag</span><br><span class="line">    AdcaRegs.ADCINTFLGCLR.bit.ADCINT1 = 1; //make sure INT1 flag is cleared</span><br><span class="line">    EDIS;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="多通道连续转换"><a href="#多通道连续转换" class="headerlink" title="多通道连续转换"></a>多通道连续转换</h4><h4 id="多通道中断转换"><a href="#多通道中断转换" class="headerlink" title="多通道中断转换"></a>多通道中断转换</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;F28x_Project.h&quot;</span><br><span class="line"></span><br><span class="line">void ConfigureADC(void);</span><br><span class="line">void SetupADCSoftware(void);</span><br><span class="line">__interrupt void  Interrupt_Adc1(void);</span><br><span class="line"></span><br><span class="line">Uint16 AdcaResult0;</span><br><span class="line">Uint16 AdcaResult1;</span><br><span class="line">float temp;</span><br><span class="line"></span><br><span class="line">void main(void)</span><br><span class="line">&#123;</span><br><span class="line">    InitSysCtrl();</span><br><span class="line">    InitGpio();</span><br><span class="line"></span><br><span class="line">    //中断初始化</span><br><span class="line">    DINT;</span><br><span class="line">    InitPieCtrl();</span><br><span class="line">    InitPieVectTable();</span><br><span class="line"></span><br><span class="line">    //ADC配置</span><br><span class="line">    ConfigureADC();</span><br><span class="line">    SetupADCSoftware();</span><br><span class="line"></span><br><span class="line">    //PIE配置</span><br><span class="line">    EALLOW;</span><br><span class="line">    PieVectTable.ADCA1_INT=&amp;Interrupt_Adc1;</span><br><span class="line">    PieCtrlRegs.PIEIFR1.bit.INTx1 = 0;</span><br><span class="line">    PieCtrlRegs.PIEIER1.bit.INTx1 = 1;  // Enable   ADC1 INT 1.1 in the PIE</span><br><span class="line">    PieCtrlRegs.PIEACK.all = 0x0FFF;        //set all ack to 0</span><br><span class="line">    EDIS;</span><br><span class="line"></span><br><span class="line">    //CPU Interrupt配置</span><br><span class="line">    IER = 0x0000;</span><br><span class="line">    IFR = 0x0000;</span><br><span class="line">    IER |= M_INT1;</span><br><span class="line"></span><br><span class="line">    //中断启用</span><br><span class="line">    EINT;</span><br><span class="line">    ERTM;  // Enable Global realtime interrupt DBGM</span><br><span class="line"></span><br><span class="line">    EALLOW;</span><br><span class="line">    AdcaRegs.ADCSOCFRC1.all = 0x0003; //SOC0 and SOC1</span><br><span class="line">    EDIS;</span><br><span class="line"></span><br><span class="line">    while(1);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void ConfigureADC(void)</span><br><span class="line">&#123;</span><br><span class="line">    EALLOW;</span><br><span class="line">    AdcaRegs.ADCCTL2.bit.PRESCALE = 6; //set ADCCLK divider to /4</span><br><span class="line">    AdcSetMode(ADC_ADCA, ADC_RESOLUTION_12BIT, ADC_SIGNALMODE_SINGLE);</span><br><span class="line"></span><br><span class="line">    //Set pulse positions to late</span><br><span class="line">    AdcaRegs.ADCCTL1.bit.INTPULSEPOS = 1;</span><br><span class="line"></span><br><span class="line">    //power up the ADCs</span><br><span class="line">    AdcaRegs.ADCCTL1.bit.ADCPWDNZ = 1;</span><br><span class="line"></span><br><span class="line">    DELAY_US(1000);</span><br><span class="line">    EDIS;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void SetupADCSoftware(void)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    EALLOW;</span><br><span class="line">    AdcaRegs.ADCSOC0CTL.bit.CHSEL = 2;  //SOC0 will convert pin A2</span><br><span class="line">    AdcaRegs.ADCSOC0CTL.bit.ACQPS = 19; //sample window is acqps +</span><br><span class="line">                                           //1 SYSCLK cycles</span><br><span class="line">    AdcaRegs.ADCSOC1CTL.bit.CHSEL = 3;  //SOC1 will convert pin A3</span><br><span class="line">    AdcaRegs.ADCSOC1CTL.bit.ACQPS = 19; //sample window is acqps +</span><br><span class="line">                                           //1 SYSCLK cycles</span><br><span class="line">    AdcaRegs.ADCINTSEL1N2.bit.INT1SEL = 1; //end of SOC1 will set INT1 flag</span><br><span class="line">    AdcaRegs.ADCINTSEL1N2.bit.INT1E = 1;   //enable INT1 flag</span><br><span class="line">    AdcaRegs.ADCINTSEL1N2.bit.INT1CONT = 0;</span><br><span class="line">    AdcaRegs.ADCINTFLGCLR.bit.ADCINT1 = 1; //make sure INT1 flag is cleared</span><br><span class="line">    EDIS;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">__interrupt void  Interrupt_Adc1(void)</span><br><span class="line">&#123;</span><br><span class="line">    AdcaResult0 = AdcaResultRegs.ADCRESULT0;</span><br><span class="line">    AdcaResult1 = AdcaResultRegs.ADCRESULT1;</span><br><span class="line">    temp=3*((float)(AdcaResult0)/4096);</span><br><span class="line"></span><br><span class="line">    AdcaRegs.ADCINTFLGCLR.bit.ADCINT1 = 1;       //Clear ADCINT1 flag reinitialize</span><br><span class="line">                                                //for next SOC</span><br><span class="line">    PieCtrlRegs.PIEACK.all |= PIEACK_GROUP1;  // Acknowledge interrupt to PIE</span><br><span class="line"></span><br><span class="line">    AdcaRegs.ADCSOCFRC1.all = 0x0003; //SOC0 and SOC1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="DAC"><a href="#DAC" class="headerlink" title="DAC"></a>DAC</h2><h3 id="总述-1"><a href="#总述-1" class="headerlink" title="总述"></a>总述</h3><p>Buffered DAC模块包含一个内部的12bitDAC和一个模拟输出缓冲使得该模块能够驱动负载。集成的下拉电阻使得在输出缓冲被禁用是模块有确定的输出电压，这个下拉电阻是一个被动组件，无法被禁用，即使该引脚被用作其他复用功能。</p>
+<p>该模块具有以下特性：</p>
+<ul>
+<li>12bit内部可编程DAC</li>
+<li>可选择的参考电压源<ul>
+<li>VDAC</li>
+<li>VREFHI</li>
+</ul>
+</li>
+<li>输出下拉电阻</li>
+<li>可以与ePWMSYNCPER同步</li>
+</ul>
+<h3 id="框图-2"><a href="#框图-2" class="headerlink" title="框图"></a>框图</h3><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/2022/01/23/04-Analog/DAC框图.png" alt="DAC框图"></p>
+<h3 id="寄存器-2"><a href="#寄存器-2" class="headerlink" title="寄存器"></a>寄存器</h3><ul>
+<li><p>DACVALA-DACVALS<br>  DACVALS是DACVALA的影子寄存器，有立即模式或同步至ePWMSYNCPER模式可选</p>
+<script type="math/tex; mode=display">DACOUT = \frac{DACVALA*DACREF}{4096}</script></li>
+<li><p>DACCTL</p>
+</li>
+<li><p>DACOUTEN</p>
+</li>
+</ul>
+<h3 id="配置流程"><a href="#配置流程" class="headerlink" title="配置流程"></a>配置流程</h3><ul>
+<li><p>使能DAC时钟</p>
+</li>
+<li><p>选择DAC参考电压源（DACREFSEL）</p>
+</li>
+<li><p>开启DAC供电（DACOUTEN）</p>
+</li>
+<li><p>等待一段时间</p>
+</li>
+<li><p>写入数值，输出电压。<br>  需要注意的是，为了使DAC有可预测的输出，应当在连续写入间间隔一定的建立时间</p>
+</li>
+</ul>
+<h3 id="典型应用-1"><a href="#典型应用-1" class="headerlink" title="典型应用"></a>典型应用</h3><h4 id="参考为VREFHI"><a href="#参考为VREFHI" class="headerlink" title="参考为VREFHI"></a>参考为VREFHI</h4><p>我猜测VDAC这个电压需要外接，但是我不知道引脚被引出到了哪里，所以就以VREFHI作为参考吧</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;F28x_Project.h&quot;</span><br><span class="line"></span><br><span class="line">Uint16 dacval = 2048;</span><br><span class="line"></span><br><span class="line">#define REFERENCE_VDAC      0</span><br><span class="line">#define REFERENCE_VREF      1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">void main(void)</span><br><span class="line">&#123;</span><br><span class="line">    InitSysCtrl();</span><br><span class="line">    DINT;</span><br><span class="line">    InitPieCtrl();</span><br><span class="line">    IER = 0x0000;</span><br><span class="line">    IFR = 0x0000;</span><br><span class="line">    InitPieVectTable();</span><br><span class="line">    </span><br><span class="line">    EALLOW;</span><br><span class="line">    DacaRegs.DACCTL.bit.DACREFSEL = REFERENCE_VREF;</span><br><span class="line">    DacaRegs.DACOUTEN.bit.DACOUTEN = 1;</span><br><span class="line">    DacaRegs.DACVALS.all = 0;</span><br><span class="line">    DELAY_US(10);</span><br><span class="line">    EDIS;</span><br><span class="line"></span><br><span class="line">    while(1)</span><br><span class="line">    &#123;</span><br><span class="line">        DacaRegs.DACVALS.all = dacval;</span><br><span class="line">        DELAY_US(2);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 <div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
@@ -108,7 +219,7 @@
 
       
 <footer class="page-footer reveal fs12"><hr><div class="text"><p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
-<p>本站由 <a href="http://example.com/">@Werty Wang</a> 创建，使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.6.1" title="v1.6.1">Stellar</a> 作为主题。</p>
+<p>本站由 <a href="http://example.com/">@Werty Wang</a> 创建，使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.8.0" title="v1.8.0">Stellar</a> 作为主题。</p>
 </div></footer>
 
       <div class='float-panel mobile-only blur' style='display:none'>
@@ -242,6 +353,12 @@
   }
   if ('true' == 'true') {
     stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://cdn.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.fancybox = Object.assign("https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css");
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti/umd/heti.min.css","js":"https://unpkg.com/heti/umd/heti-addon.min.js"});
   }
 </script>
 

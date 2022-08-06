@@ -1,7 +1,6 @@
-const FriendsJS = {
+const friendsjs = {
   requestAPI: (url, callback, timeout) => {
     let retryTimes = 5;
-
     function request() {
       return new Promise((resolve, reject) => {
         let status = 0; // 0 等待 1 完成 2 超时
@@ -15,7 +14,7 @@ const FriendsJS = {
             }
           }
         }, 5000);
-        fetch(url).then(function (response) {
+        fetch(url).then(function(response) {
           if (status !== 2) {
             clearTimeout(timer);
             resolve(response);
@@ -26,10 +25,10 @@ const FriendsJS = {
             return response.json();
           }
           throw new Error('Network response was not ok.');
-        }).then(function (data) {
+        }).then(function(data) {
           retryTimes = 0;
           callback(data);
-        }).catch(function (error) {
+        }).catch(function(error) {
           if (retryTimes > 0) {
             retryTimes -= 1;
             setTimeout(() => {
@@ -44,50 +43,41 @@ const FriendsJS = {
     request();
   },
   layout: (cfg) => {
-    const el = cfg.el;
-    FriendsJS.requestAPI(cfg.api, function (data) {
-      el.querySelector('.loading-wrap').remove();
+    const el = $(cfg.el)[0];
+    $(el).append('<div class="loading-wrap"><svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg><p></p></div>');
+    friendsjs.requestAPI(cfg.api, function(data) {
+      $(el).find('.loading-wrap').remove();
       const arr = data.content;
-      var cellALL = "";
       arr.forEach((item, i) => {
         var user = '<div class="user-card">';
-        user += '<a class="card-link" target="_blank" rel="external noopener noreferrer"';
+        user += '<a class="card-link" target="_blank" rel="external nofollow noopener noreferrer"';
         user += ' href="' + item.url + '">';
-        user += '<img alt="' + item.title + '" src="' + (item.avatar || cfg.avatar) + '" onerror="javascript:this.onerror=null;this.src=\'' + cfg.avatar + '\';">';
+        user += '<img src="' + (item.avatar || cfg.avatar) + '" onerror="javascript:this.src=\'' + cfg.avatar + '\';">';
         user += '<div class="name"><span>' + item.title + '</span></div>';
         user += '</a>';
         user += '</div>';
-        cellALL += user;
+        $(el).find('.group-body').append(user);
       });
-      el.querySelector('.group-body').innerHTML = cellALL;
-    }, function () {
-      try {
-        el.querySelector('.loading-wrap svg').remove();
-        el.querySelector('.loading-wrap p').innerText('加载失败，请稍后重试。');
-      } catch (e) { }
+    }, function() {
+      $(el).find('.loading-wrap svg').remove();
+      $(el).find('.loading-wrap p').text('加载失败，请稍后重试。');
     });
   },
-  start: () => {
-    const els = document.getElementsByClassName('friendsjs-wrap');
-    for (var i = 0; i < els.length; i++) {
-      const el = els[i];
-      const api = el.getAttribute('api');
-      if (api == null) {
-        continue;
-      }
-      var cfg = new Object();
-      cfg.el = el;
-      cfg.api = api;
-      cfg.class = el.getAttribute('class');
-      cfg.avatar = 'https://cdn.jsdelivr.net/gh/cdn-x/placeholder@1.0.1/avatar/round/3442075.svg';
-      FriendsJS.layout(cfg);
-    }
-  }
 }
 
-
-
-FriendsJS.start();
-document.addEventListener('pjax:complete', function () {
-  FriendsJS.start();
+$(function () {
+  const els = document.getElementsByClassName('friendsjs-wrap');
+  for (var i = 0; i < els.length; i++) {
+    const el = els[i];
+    const api = el.getAttribute('api');
+    if (api == null) {
+      continue;
+    }
+    var cfg = new Object();
+    cfg.el = el;
+    cfg.api = api;
+    cfg.class = el.getAttribute('class');
+    cfg.avatar = 'https://fastly.jsdelivr.net/gh/cdn-x/placeholder@1.0.1/avatar/round/3442075.svg';
+    friendsjs.layout(cfg);
+  }
 });
