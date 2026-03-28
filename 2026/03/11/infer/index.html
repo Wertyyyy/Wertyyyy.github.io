@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
     <meta name="description" content="1. The Hardware Balance Point2. GEMM FLOPs: A Quick Primer2.1 General Formula2.2 Worked Examples3. Prefill: Attention Arithmetic Intensity3.1 FLOPs3.2 Memory Access3.3 Arithmetic Intensity4. Decode:">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Roofline Thinking: Arithmetic Intensity in LLM Inference">
+<meta property="og:title" content="Divided by Design: How Compute and Bandwidth Share the LLM Workload">
 <meta property="og:url" content="https://wertyyyy.github.io/2026/03/11/infer/index.html">
 <meta property="og:site_name" content="Werty&#39;s Blog">
 <meta property="og:description" content="1. The Hardware Balance Point2. GEMM FLOPs: A Quick Primer2.1 General Formula2.2 Worked Examples3. Prefill: Attention Arithmetic Intensity3.1 FLOPs3.2 Memory Access3.3 Arithmetic Intensity4. Decode:">
@@ -35,7 +35,7 @@
       
     
     <!-- title -->
-    <title>Roofline Thinking: Arithmetic Intensity in LLM Inference</title>
+    <title>Divided by Design: How Compute and Bandwidth Share the LLM Workload</title>
     <!-- async scripts -->
     <!-- Google Analytics -->
 
@@ -54,18 +54,11 @@
     
 	<!-- mathjax -->
 	<!--  -->
-  <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"
-  />
-  <link 
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.css"
-  />
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
-  <script>
-    mermaid.initialize({ startOnLoad: true });
-  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.44/dist/katex.css" integrity="sha384-OSKLI8U3lT+prEtObXOa7GSBiytVEJReRPaDRDOBnU5pE3sKCnmWF0jgU1VlIZSE" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.44/dist/katex.js" integrity="sha384-y96lmTSzNilCtnavR/rlxpJiGowc2+4uGOvUuBbQgB7QVvkmxYGO9zL4g5f+ZnY8" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11.13.0/dist/mermaid.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/plotly.js@3.4.0/dist/plotly.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/plotly.js@3.4.0/dist/plotly.min.css" rel="stylesheet">
 <meta name="generator" content="Hexo 8.1.1"></head>
 
 <body class="max-width mx-auto px3 ltr">
@@ -109,16 +102,16 @@
     <div id="share" style="display: none">
       <ul>
   <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://wertyyyy.github.io/2026/03/11/infer/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://wertyyyy.github.io/2026/03/11/infer/&text=Roofline Thinking: Arithmetic Intensity in LLM Inference"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://wertyyyy.github.io/2026/03/11/infer/&title=Roofline Thinking: Arithmetic Intensity in LLM Inference"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://wertyyyy.github.io/2026/03/11/infer/&is_video=false&description=Roofline Thinking: Arithmetic Intensity in LLM Inference"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Roofline Thinking: Arithmetic Intensity in LLM Inference&body=Check out this article: https://wertyyyy.github.io/2026/03/11/infer/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://wertyyyy.github.io/2026/03/11/infer/&title=Roofline Thinking: Arithmetic Intensity in LLM Inference"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://wertyyyy.github.io/2026/03/11/infer/&title=Roofline Thinking: Arithmetic Intensity in LLM Inference"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://wertyyyy.github.io/2026/03/11/infer/&title=Roofline Thinking: Arithmetic Intensity in LLM Inference"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://wertyyyy.github.io/2026/03/11/infer/&title=Roofline Thinking: Arithmetic Intensity in LLM Inference"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://wertyyyy.github.io/2026/03/11/infer/&name=Roofline Thinking: Arithmetic Intensity in LLM Inference&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://wertyyyy.github.io/2026/03/11/infer/&t=Roofline Thinking: Arithmetic Intensity in LLM Inference"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://wertyyyy.github.io/2026/03/11/infer/&text=Divided by Design: How Compute and Bandwidth Share the LLM Workload"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://wertyyyy.github.io/2026/03/11/infer/&title=Divided by Design: How Compute and Bandwidth Share the LLM Workload"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://wertyyyy.github.io/2026/03/11/infer/&is_video=false&description=Divided by Design: How Compute and Bandwidth Share the LLM Workload"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Divided by Design: How Compute and Bandwidth Share the LLM Workload&body=Check out this article: https://wertyyyy.github.io/2026/03/11/infer/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://wertyyyy.github.io/2026/03/11/infer/&title=Divided by Design: How Compute and Bandwidth Share the LLM Workload"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://wertyyyy.github.io/2026/03/11/infer/&title=Divided by Design: How Compute and Bandwidth Share the LLM Workload"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://wertyyyy.github.io/2026/03/11/infer/&title=Divided by Design: How Compute and Bandwidth Share the LLM Workload"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://wertyyyy.github.io/2026/03/11/infer/&title=Divided by Design: How Compute and Bandwidth Share the LLM Workload"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://wertyyyy.github.io/2026/03/11/infer/&name=Divided by Design: How Compute and Bandwidth Share the LLM Workload&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://wertyyyy.github.io/2026/03/11/infer/&t=Divided by Design: How Compute and Bandwidth Share the LLM Workload"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -138,7 +131,7 @@
   <header>
     
     <h1 class="posttitle p-name" itemprop="name headline">
-        Roofline Thinking: Arithmetic Intensity in LLM Inference
+        Divided by Design: How Compute and Bandwidth Share the LLM Workload
     </h1>
 
 
@@ -789,16 +782,16 @@ c100.7 8.3 195.3 44 280 108 55.3 42 101.7 93 139 153l9 14c2.7-4 5.7-8.7 9-14
     <div id="share-footer" style="display: none">
       <ul>
   <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://wertyyyy.github.io/2026/03/11/infer/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://wertyyyy.github.io/2026/03/11/infer/&text=Roofline Thinking: Arithmetic Intensity in LLM Inference"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://wertyyyy.github.io/2026/03/11/infer/&title=Roofline Thinking: Arithmetic Intensity in LLM Inference"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://wertyyyy.github.io/2026/03/11/infer/&is_video=false&description=Roofline Thinking: Arithmetic Intensity in LLM Inference"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Roofline Thinking: Arithmetic Intensity in LLM Inference&body=Check out this article: https://wertyyyy.github.io/2026/03/11/infer/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://wertyyyy.github.io/2026/03/11/infer/&title=Roofline Thinking: Arithmetic Intensity in LLM Inference"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://wertyyyy.github.io/2026/03/11/infer/&title=Roofline Thinking: Arithmetic Intensity in LLM Inference"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://wertyyyy.github.io/2026/03/11/infer/&title=Roofline Thinking: Arithmetic Intensity in LLM Inference"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://wertyyyy.github.io/2026/03/11/infer/&title=Roofline Thinking: Arithmetic Intensity in LLM Inference"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://wertyyyy.github.io/2026/03/11/infer/&name=Roofline Thinking: Arithmetic Intensity in LLM Inference&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://wertyyyy.github.io/2026/03/11/infer/&t=Roofline Thinking: Arithmetic Intensity in LLM Inference"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://wertyyyy.github.io/2026/03/11/infer/&text=Divided by Design: How Compute and Bandwidth Share the LLM Workload"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://wertyyyy.github.io/2026/03/11/infer/&title=Divided by Design: How Compute and Bandwidth Share the LLM Workload"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://wertyyyy.github.io/2026/03/11/infer/&is_video=false&description=Divided by Design: How Compute and Bandwidth Share the LLM Workload"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Divided by Design: How Compute and Bandwidth Share the LLM Workload&body=Check out this article: https://wertyyyy.github.io/2026/03/11/infer/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://wertyyyy.github.io/2026/03/11/infer/&title=Divided by Design: How Compute and Bandwidth Share the LLM Workload"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://wertyyyy.github.io/2026/03/11/infer/&title=Divided by Design: How Compute and Bandwidth Share the LLM Workload"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://wertyyyy.github.io/2026/03/11/infer/&title=Divided by Design: How Compute and Bandwidth Share the LLM Workload"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://wertyyyy.github.io/2026/03/11/infer/&title=Divided by Design: How Compute and Bandwidth Share the LLM Workload"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://wertyyyy.github.io/2026/03/11/infer/&name=Divided by Design: How Compute and Bandwidth Share the LLM Workload&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://wertyyyy.github.io/2026/03/11/infer/&t=Divided by Design: How Compute and Bandwidth Share the LLM Workload"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
